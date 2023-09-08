@@ -115,7 +115,16 @@ export const CURRENCIES = [
     {
         "fullName": "Russian Ruble",
         "shortName": "RUB",
-        "tradeMethods": [{
+        "tradeMethods": [
+            {
+                "identifier": "Sber",
+                "tradeMethodName": "Cбер"
+            },
+            {
+                "identifier": "Tinkoff",
+                "tradeMethodName": "Тинькофф"
+            },
+            {
             "identifier": "RaiffeisenBank",
             "tradeMethodName": "Райффайзенбанк"
         }, {
