@@ -184,9 +184,6 @@ const Form = ({deal, onChangeDeal, currencies, onSendDeal}) => {
                     {isCurrentStepValid && <Button onClick={handleNext} variant="contained">
                         {isLastStep ? 'Создать заявку' : 'Далее'}
                     </Button>}
-                    <Button onClick={() => onSendDeal()} variant="contained">
-                       go
-                    </Button>
                 </div>
             </div>
         </ThemeProvider>
