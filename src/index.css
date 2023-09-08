@@ -1,0 +1,13 @@
+@import 'normalize.css/normalize.css';
+
+body * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    color: var(--tg-theme-text-color);
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    background: var(--tg-theme-bg-color);
+}
