@@ -8,7 +8,7 @@ module.exports = {
     devtool: "inline-source-map",
     output: {
         filename: "main.js",
-        path: path.resolve(__dirname, "build"),
+        path: path.resolve(__dirname, "public"),
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -17,7 +17,7 @@ module.exports = {
     ],
     devServer: {
         static: {
-            directory: path.join(__dirname, "build"),
+            directory: path.join(__dirname, "public"),
         },
         port: 3000,
         historyApiFallback: true,
