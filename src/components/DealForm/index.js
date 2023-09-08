@@ -129,7 +129,7 @@ const Form = ({deal, onChangeDeal, currencies, onSendDeal}) => {
                                     onChangeDeal('sender_bank', value ? value.id : null)
                                 }}
                             />
-                            <FormControlLabel
+                            {deal.sender_currency === 'RUB' && <FormControlLabel
                                 control={
                                     <Switch
                                         checked={deal.is_sbp}
@@ -139,7 +139,7 @@ const Form = ({deal, onChangeDeal, currencies, onSendDeal}) => {
                                     />
                                 }
                                 label="Сможете ли вы отправить по СБП?"
-                            />
+                            />}
                         </Fragment> :
                         <Fragment>
                             <Autocomplete
