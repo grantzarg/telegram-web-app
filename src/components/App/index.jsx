@@ -1,7 +1,17 @@
 import React, {useCallback, useState, useEffect, Fragment} from 'react'
-import DealForm from '../DealForm'
-import {useTelegram} from "../../hooks/useTelegram";
+import DealForm from '../../pages/DealForm'
+import Home from '../../pages/Home'
+import Pin from '../../pages/Pin'
+import Receive from '../../pages/Recieve'
+import Send from '../../pages/Send'
 import {CURRENCIES} from "../../helper";
+import {useTelegram} from "../../hooks/useTelegram";
+
+import {
+    BrowserRouter as Router,
+    Routes,
+    Route
+} from 'react-router-dom';
 
 const App = () => {
     const {tg, queryId} = useTelegram();
@@ -13,6 +23,8 @@ const App = () => {
         receiver_currency: null,
         is_sbp: false
     });
+
+    const [isAuthorized, setIsAuthorized] = useState(false)
 
     const onChangeDeal = (field, value) => {
         setDeal({
@@ -46,9 +58,16 @@ const App = () => {
     }, [])
 
     return (
-        <Fragment>
-            <DealForm deal={deal} currencies={CURRENCIES} onChangeDeal={onChangeDeal} onSendDeal={onSendDeal}/>
-        </Fragment>
+        <Router>
+            {/*<DealForm deal={deal} currencies={CURRENCIES} onChangeDeal={onChangeDeal} onSendDeal={onSendDeal}/>*/}
+            <Routes>
+                <Route path="/" element={<Home isAuthorized={isAuthorized} />}/>
+                <Route path="/auth" element={<Pin onAuthorize={() => setIsAuthorized(true)} />}/>
+                <Route path="/deal" element={<DealForm isAuthorized={isAuthorized} deal={deal} currencies={CURRENCIES} onChangeDeal={onChangeDeal} onSendDeal={onSendDeal}/>}/>
+                <Route path="/receive" element={<Receive isAuthorized={isAuthorized} />}/>
+                <Route path="/send" element={<Send isAuthorized={isAuthorized} />}/>
+            </Routes>
+        </Router>
     )
 }
 

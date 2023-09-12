@@ -1,0 +1,46 @@
+.wrapper {
+
+}
+
+.container {
+    width: 90vw;
+    margin: 20px auto;
+    border-radius: 25px;
+    padding: 25px 15px;
+    display: flex;
+    flex-direction: column;
+    background: #1A212C;
+}
+
+.stepper {
+    margin-bottom: 50px;
+}
+
+.formWrapper {
+    padding: 20px 0;
+}
+
+.select {
+    margin-bottom: 20px;
+}
+
+.selectWrapper {
+    display: flex;
+    align-items: center;
+}
+
+.selectLabel {
+    margin-right: 10px;
+}
+
+.buttonsWrapper {
+    margin-top: auto;
+}
+
+.buttonWrapper {
+    height: 40px;
+}
+
+.button {
+    text-transform: initial !important;
+}

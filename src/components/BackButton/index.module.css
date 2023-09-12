@@ -1,0 +1,16 @@
+.button {
+    background: #1A212C;
+    padding: 15px 20px;
+    border-radius: 25px;
+    font-size: 20px;
+    width: 90vw;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    margin: 20px auto 0 auto;
+}
+
+.button svg {
+    width: 22px;
+    margin-right: 5px;
+}
