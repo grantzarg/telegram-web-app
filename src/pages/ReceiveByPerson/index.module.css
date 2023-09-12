@@ -1,0 +1,48 @@
+.wrapper {
+    width: 90vw;
+    margin: 20px auto;
+    border-radius: 25px;
+    padding: 25px 15px;
+    display: flex;
+    flex-direction: column;
+    background: #1A212C;
+}
+
+.title {
+    font-size: 25px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.receiveTypesWrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.receiveType {
+    padding: 15px 10px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    font-size: 18px;
+}
+
+.receiveType:not(:last-child)::after {
+    position: absolute;
+    content: '';
+    display: block;
+    width: 100%;
+    height: 1px;
+    bottom: 0;
+    left: 0;
+    background: rgb(61, 61, 63);
+}
+
+.receiveType svg {
+    width: 25px;
+    margin-right: 8px;
+}
+
+.usdt svg {
+    width: 22px;
+}
