@@ -13,9 +13,9 @@ const Home = ({isAuthorized}) => {
     }
 
     useLayoutEffect(() => {
-        console.log('isAuthorized', isAuthorized)
         if (!isAuthorized) {
-            navigate('/auth')
+            navigate('/auth', {replace: true})
+            window.location.reload()
         }
     }, [isAuthorized])
 
