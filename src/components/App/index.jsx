@@ -27,7 +27,7 @@ const App = () => {
         is_sbp: false
     });
 
-    const [isAuthorized, setIsAuthorized] = useState(true)
+    const [isAuthorized, setIsAuthorized] = useState(false)
 
     const onChangeDeal = (field, value) => {
         setDeal({
@@ -62,7 +62,6 @@ const App = () => {
 
     return (
         <Router>
-            {/*<DealForm deal={deal} currencies={CURRENCIES} onChangeDeal={onChangeDeal} onSendDeal={onSendDeal}/>*/}
             <Routes>
                 <Route path="/" element={<Home isAuthorized={isAuthorized} />}/>
 
