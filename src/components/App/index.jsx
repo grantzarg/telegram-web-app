@@ -58,14 +58,13 @@ const App = () => {
 
     useEffect(() => {
         tg.ready();
+        tg.expand();
     }, [])
 
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<Home isAuthorized={isAuthorized} />}/>
-
-                <Route path="/auth" element={<Pin onAuthorize={() => setIsAuthorized(true)} />}/>
+                <Route path="/" element={isAuthorized ? <Home /> : <Pin onAuthorize={() => setIsAuthorized(true)} />}/>
 
                 <Route path="/deal" element={<DealForm isAuthorized={isAuthorized} deal={deal} currencies={CURRENCIES} onChangeDeal={onChangeDeal} onSendDeal={onSendDeal}/>}/>
 

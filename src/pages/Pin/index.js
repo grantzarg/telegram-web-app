@@ -26,9 +26,8 @@ const Pin = ({onAuthorize}) => {
     const handleComplete = () => {
         if (value === '1234') {
             setIsValid(true)
-            setTimeout(onAuthorize)
 
-            setTimeout(() => navigate('/'), 1500)
+            setTimeout(onAuthorize, 1500)
         } else {
             setIsError(true)
             // window.telegram ? window.Telegram.WebApp.showAlert('Неверный пароль. Попробуйте еще.') : alert('Неверный пароль. Попробуйте еще.')

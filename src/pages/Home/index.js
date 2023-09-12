@@ -5,22 +5,11 @@ import classnames from "classnames";
 import Balance from "../../components/Balance";
 import History from "../../components/History";
 
-const Home = ({isAuthorized}) => {
+const Home = () => {
     const navigate = useNavigate();
 
     const handleClick = () => {
         navigate('/deal');
-    }
-
-    useLayoutEffect(() => {
-        if (!isAuthorized) {
-            navigate('/auth', {replace: true})
-            window.location.reload()
-        }
-    }, [isAuthorized])
-
-    if (!isAuthorized) {
-        return null
     }
 
     return (
