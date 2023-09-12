@@ -2,6 +2,7 @@
 
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
     entry: "./src/index.js",
@@ -12,7 +13,7 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: path.join(__dirname, "public", "index.html"),
+            template: path.join(__dirname, "src", "index.html"),
         }),
     ],
     devServer: {
@@ -48,6 +49,6 @@ module.exports = {
     },
     // pass all js files through Babel
     resolve: {
-        extensions: ["*", ".js", ".jsx", '.css'],
+        extensions: [".*", ".js", ".jsx", '.css'],
     }
 };

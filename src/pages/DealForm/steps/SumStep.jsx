@@ -2,13 +2,6 @@ import React from 'react';
 import css from '../index.module.css';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles(() => ({
-    button: {
-        textTransform: 'initial',
-    }
-}));
 
 const SumStep = ({onChangeDeal}) => {
     const [sumType, setSumType] = React.useState('sumToSend');

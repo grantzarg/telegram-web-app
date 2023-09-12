@@ -1,4 +1,4 @@
-import React, {useState, useMemo, Fragment, useEffect} from 'react'
+import React, {useState, useMemo, useEffect} from 'react'
 import css from './index.module.css'
 
 import BackButton from '../../components/BackButton'
@@ -12,8 +12,6 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import {STEPS} from './helper'
 import {CURRENCIES} from '../../helper'
 
-const tg = window.Telegram ? window.Telegram.WebApp : {}
-
 const darkTheme = createTheme({
     palette: {
         mode: 'dark',
@@ -24,7 +22,7 @@ const getOptionLabel = (option) => {
     return option.label
 }
 
-const Form = ({deal, onChangeDeal, currencies, onSendDeal}) => {
+const DealForm = ({deal, onChangeDeal, currencies, onSendDeal}) => {
     const [activeStep, setActiveStep] = useState(0);
 
     const handleNext = () => {
@@ -75,14 +73,6 @@ const Form = ({deal, onChangeDeal, currencies, onSendDeal}) => {
 
         return result
     }, [currenciesList])
-
-    const getPaymentMethodsByCurrency = (currency) => {
-        return paymentMethods[currency] || []
-    }
-
-    const handleChangeSenderCurrency = (value) => {
-        onChangeDeal('sender_currency', value ? value.id : null)
-    }
 
     const StepComponent = STEPS[activeStep].component
 
@@ -137,4 +127,4 @@ const Form = ({deal, onChangeDeal, currencies, onSendDeal}) => {
     )
 }
 
-export default Form
+export default DealForm

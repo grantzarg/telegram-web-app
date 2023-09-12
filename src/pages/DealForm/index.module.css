@@ -16,10 +16,6 @@
     margin-bottom: 50px;
 }
 
-.formWrapper {
-    padding: 20px 0;
-}
-
 .select {
     margin-bottom: 20px;
 }
@@ -34,7 +30,7 @@
 }
 
 .buttonsWrapper {
-    margin-top: auto;
+    margin-top: 20px;
 }
 
 .buttonWrapper {

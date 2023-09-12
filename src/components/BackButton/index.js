@@ -2,11 +2,11 @@ import React from "react";
 import css from './index.module.css'
 import {useNavigate} from "react-router-dom";
 
-const BackButton = () => {
+const BackButton = ({route = '/', title = 'Назад на главную'}) => {
    const navigate = useNavigate();
 
    return (
-       <div className={css.button} onClick={() => navigate('/')}>
+       <div className={css.button} onClick={() => navigate(route, {})}>
            <svg viewBox="0 0 1024 1024" fill="#FFF" className="icon" version="1.1" xmlns="http://www.w3.org/2000/svg"
                 stroke="#FFF">
                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -17,7 +17,7 @@ const BackButton = () => {
                        fill=""></path>
                </g>
            </svg>
-           <span>Назад на главную</span>
+           <span>{title}</span>
        </div>
    )
 };

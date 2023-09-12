@@ -12,6 +12,9 @@ import {
     Routes,
     Route
 } from 'react-router-dom';
+import ReceiveByBank from "../../pages/ReceiveByBank";
+import ReceiveUSDT from "../../pages/ReceiveUSDT";
+import ReceiveByPerson from "../../pages/ReceiveByPerson";
 
 const App = () => {
     const {tg, queryId} = useTelegram();
@@ -24,7 +27,7 @@ const App = () => {
         is_sbp: false
     });
 
-    const [isAuthorized, setIsAuthorized] = useState(false)
+    const [isAuthorized, setIsAuthorized] = useState(true)
 
     const onChangeDeal = (field, value) => {
         setDeal({
@@ -62,9 +65,16 @@ const App = () => {
             {/*<DealForm deal={deal} currencies={CURRENCIES} onChangeDeal={onChangeDeal} onSendDeal={onSendDeal}/>*/}
             <Routes>
                 <Route path="/" element={<Home isAuthorized={isAuthorized} />}/>
+
                 <Route path="/auth" element={<Pin onAuthorize={() => setIsAuthorized(true)} />}/>
+
                 <Route path="/deal" element={<DealForm isAuthorized={isAuthorized} deal={deal} currencies={CURRENCIES} onChangeDeal={onChangeDeal} onSendDeal={onSendDeal}/>}/>
+
                 <Route path="/receive" element={<Receive isAuthorized={isAuthorized} />}/>
+                <Route path="/receive-bank" element={<ReceiveByBank isAuthorized={isAuthorized} />}/>
+                <Route path="/receive-usdt" element={<ReceiveUSDT isAuthorized={isAuthorized} />}/>
+                <Route path="/receive-person" element={<ReceiveByPerson isAuthorized={isAuthorized} />}/>
+
                 <Route path="/send" element={<Send isAuthorized={isAuthorized} />}/>
             </Routes>
         </Router>
