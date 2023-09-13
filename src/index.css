@@ -11,14 +11,8 @@ body {
     color: #FFFFFE;
     font-family: "Roboto","Helvetica","Arial",sans-serif;
     -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
 }
-
-@media screen and (orientation: landscape) {
-    body {
-        padding-bottom: 200px;
-    }
-}
-
 
 body .hg-theme-default {
     background-color: #1A212C;;
