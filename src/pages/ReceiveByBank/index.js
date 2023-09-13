@@ -6,6 +6,7 @@ import SenderStep from "../DealForm/steps/SenderStep";
 import {CURRENCIES} from "../../helper";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 const darkTheme = createTheme({
     palette: {
@@ -20,6 +21,10 @@ const ReceiveByBank = () => {
         is_sbp: false,
         sum: ''
     });
+
+    const isDealValid = () => {
+        return deal.sender_bank && deal.sender_currency && deal.sum;
+    }
 
     const getUsdValue = () => {
         const value = deal.sum / 98.21
@@ -90,7 +95,13 @@ const ReceiveByBank = () => {
                         label="Введите сумму"
                         variant="outlined"
                         value={deal.sum}
-                        inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                        InputProps={
+                            {
+                                style: {
+                                    borderRadius: "25px",
+                                }
+                            }
+                        }
                         onChange={handleChangeSum}
                     />
                     {  deal.sender_currency && deal.sum &&
@@ -98,6 +109,9 @@ const ReceiveByBank = () => {
                             <div className={css.exchangeRate}>ĸурс 98.21 RUB/USD</div>
                             <div className={css.resultSum}>~{getUsdValue()}$</div>
                         </Fragment>
+                    }
+                    {   isDealValid() &&
+                            <Button size={"large"} variant="contained" sx={{ borderRadius: 25, marginTop: '20px' }}>Пополнить</Button>
                     }
                 </ThemeProvider>
             </div>

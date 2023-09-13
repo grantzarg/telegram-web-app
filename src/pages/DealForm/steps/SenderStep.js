@@ -20,7 +20,10 @@ const SenderStep = ({currenciesList, getOptionLabel, deal, paymentMethods, onCha
                 className={css.select}
                 options={currenciesList}
                 getOptionLabel={getOptionLabel}
-                sx={{width: '100%'}}
+                sx={{
+                    width: '100%',
+                    '& fieldset': { borderRadius: 25 }
+                }}
                 renderInput={(params) => <TextField {...params} label="Выберите валюту отправления"/>}
                 isOptionEqualToValue={(option, value) => option.id === value.id}
                 value={currenciesList.find(item => item.id === deal.sender_currency) || null}
@@ -31,7 +34,10 @@ const SenderStep = ({currenciesList, getOptionLabel, deal, paymentMethods, onCha
                 disabled={!deal.sender_currency}
                 options={ getPaymentMethodsByCurrency(deal.sender_currency)}
                 getOptionLabel={getOptionLabel}
-                sx={{width: '100%'}}
+                sx={{
+                    width: '100%',
+                    '& fieldset': { borderRadius: 25 }
+                }}
                 renderInput={(params) => <TextField {...params} label="Выберите банк отправителя"/>}
                 isOptionEqualToValue={(option, value) => option.id === value.id}
                 value={getPaymentMethodsByCurrency(deal.sender_currency).find(item => item.id === deal.sender_bank) || null}
@@ -40,6 +46,12 @@ const SenderStep = ({currenciesList, getOptionLabel, deal, paymentMethods, onCha
                 }}
             />
             {deal.sender_currency === 'RUB' && <FormControlLabel
+                sx={{
+                    "&": {
+                        marginRight: 0,
+                        marginLeft: 0,
+                    }
+                }}
                 control={
                     <Switch
                         checked={deal.is_sbp}

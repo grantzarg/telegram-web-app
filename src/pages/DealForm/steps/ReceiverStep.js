@@ -14,7 +14,10 @@ const ReceiverStep = ({currenciesList, getOptionLabel, deal, paymentMethods, onC
                 className={css.select}
                 options={currenciesList}
                 getOptionLabel={getOptionLabel}
-                sx={{width: '100%'}}
+                sx={{
+                    width: '100%',
+                    '& fieldset': { borderRadius: 25 }
+                }}
                 renderInput={(params) => <TextField {...params} label="Выберите валюту получения"/>}
                 isOptionEqualToValue={(option, value) => option.id === value.id}
                 value={currenciesList.find(item => item.id === deal.receiver_currency) || null}
@@ -28,7 +31,10 @@ const ReceiverStep = ({currenciesList, getOptionLabel, deal, paymentMethods, onC
                 disabled={!deal.receiver_currency}
                 options={getPaymentMethodsByCurrency(deal.receiver_currency)}
                 getOptionLabel={getOptionLabel}
-                sx={{width: '100%'}}
+                sx={{
+                    width: '100%',
+                    '& fieldset': { borderRadius: 25 }
+                }}
                 isOptionEqualToValue={(option, value) => option.id === value.id}
                 renderInput={(params) => <TextField {...params} label="Выберите банк получателя"/>}
                 value={getPaymentMethodsByCurrency(deal.receiver_currency).find(item => item.id === deal.receiver_bank) || null}
