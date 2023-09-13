@@ -10,6 +10,11 @@ const ReceiveUSDT = () => {
             <div className={css.wrapper}>
                 <div className={css.title}>Пополнить</div>
 
+                <div className={css.qrCodeWrapper}>
+                </div>
+
+                <div className={css.walletAddress}>TLovTQBzCqJhrB71b8SrtnPtvhGFP4GNxk</div>
+                <div className={css.walletAddress}>Ваш адрес USDT</div>
             </div>
             <BackButton route={'/receive'} title={'Назад'}/>
         </Fragment>
