@@ -40,7 +40,7 @@ const App = () => {
         sumType: 'sumToReceive'
     });
 
-    const [isAuthorized, setIsAuthorized] = useState(true)
+    const [isAuthorized, setIsAuthorized] = useState(false)
 
     const onChangeDeal = (field, value) => {
         setDeal({

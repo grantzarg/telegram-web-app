@@ -12,7 +12,7 @@ import {STEPS} from './helper'
 import {currenciesList, getPaymentMethods, getOptionLabel} from '../../helper'
 
 const DealForm = ({deal, onChangeDeal, currencies, onSendDeal}) => {
-    const [activeStep, setActiveStep] = useState(2);
+    const [activeStep, setActiveStep] = useState(0);
 
     const handleNext = () => {
         if (isLastStep) {
