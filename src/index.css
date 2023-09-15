@@ -50,3 +50,7 @@ body .hg-theme-default.hg-layout-numeric .hg-button {
 body .hg-theme-default.hg-layout-numeric .hg-button[data-skbtn="clear"] {
     visibility: hidden;
 }
+
+#root {
+    padding-bottom: 50px;
+}
