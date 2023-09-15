@@ -1,4 +1,4 @@
-import React, {Fragment, useMemo, useState} from "react";
+import React, {Fragment, useContext, useMemo, useState} from "react";
 import css from './index.module.css'
 import BackButton from "../../components/BackButton";
 import Balance from "../../components/Balance";
@@ -7,6 +7,7 @@ import {CURRENCIES} from "../../helper";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import {Context} from "../../context";
 
 const darkTheme = createTheme({
     palette: {
@@ -22,12 +23,15 @@ const ReceiveByBank = () => {
         sum: ''
     });
 
+    const { state } = useContext(Context);
+    const {exchangeRate} = state
+
     const isDealValid = () => {
         return deal.sender_bank && deal.sender_currency && deal.sum;
     }
 
     const getUsdValue = () => {
-        const value = deal.sum / 98.21
+        const value = deal.sum / exchangeRate
 
         return value.toFixed(2)
     }
@@ -106,12 +110,12 @@ const ReceiveByBank = () => {
                     />
                     {  deal.sender_currency && deal.sum &&
                         <Fragment>
-                            <div className={css.exchangeRate}>ĸурс 98.21 RUB/USD</div>
+                            <div className={css.exchangeRate}>курс {exchangeRate} RUB/USD</div>
                             <div className={css.resultSum}>~{getUsdValue()}$</div>
                         </Fragment>
                     }
                     {   isDealValid() &&
-                            <Button size={"large"} variant="contained" sx={{ borderRadius: 25, marginTop: '20px' }}>Пополнить</Button>
+                            <Button size={"large"} variant="contained" sx={{ borderRadius: 25, marginTop: '20px', padding: '15px 20px' }}>Пополнить</Button>
                     }
                 </ThemeProvider>
             </div>

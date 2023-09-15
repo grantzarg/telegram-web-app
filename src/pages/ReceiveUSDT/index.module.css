@@ -5,6 +5,7 @@
     padding: 25px 15px;
     display: flex;
     flex-direction: column;
+    align-items: center;
     background: #1A212C;
 }
 
@@ -47,10 +48,73 @@
     width: 22px;
 }
 
+.walletInfo {
+    background: #1C1B1E;
+    border-radius: 20px;
+    padding: 25px 0 20px;
+    width: 300px;
+}
+
 .walletAddress {
+    font-size: 15px;
+    margin-right: 5px;
+    word-break: break-all;
+    width: 150px;
+}
+
+.walletAddressHint {
+    text-align: center;
+    margin-top: 10px;
+    color: #BFBFBF;
+    font-size: 15px;
+}
+
+.walletAddressWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
 }
 
-.qrCodeWrapper {
+.walletAddressWrapper svg {
+    position: relative;
+    bottom: 1px;
+}
 
+.qrCodeWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.text {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.actionButtonsWrapper {
+    display: flex;
+    width: 90vw;
+    margin: 20px auto 0 auto;
+}
+
+.actionButton {
+    background: #1A212C;
+    padding: 15px;
+    border-radius: 25px;
+    font-size: 18px;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.actionButton svg {
+    width: 22px;
+    margin-right: 5px;
+}
+
+.actionButtonCopy {
+    margin-right: 15px;
 }
