@@ -40,3 +40,12 @@
 .button {
     text-transform: initial !important;
 }
+
+.sumWrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.sumType {
+    margin-bottom: 20px !important;
+}

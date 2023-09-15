@@ -1,3 +1,5 @@
+import {useMemo} from "react";
+
 export const CURRENCIES = [
     {
         "fullName": "Russian Ruble",
@@ -8309,6 +8311,33 @@ export const CURRENCIES = [
     }]
 }
 ]
+
+export const currenciesList = CURRENCIES.map(item => {
+        return {
+            id: item.shortName,
+            label: `${item.fullName} (${item.shortName})`,
+            tradeMethods: item.tradeMethods
+        }
+    });
+
+export const getPaymentMethods = () => {
+    let result = {}
+
+    currenciesList.forEach(item => {
+        result[item.id] = item.tradeMethods.map(method => {
+            return {
+                id: method.identifier,
+                label: method.tradeMethodName,
+            }
+        })
+    })
+
+    return result
+}
+
+export const getOptionLabel = (option) => {
+    return option.label
+}
 
 export function getRequest(url) {
     return fetch(url)
