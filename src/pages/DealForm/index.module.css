@@ -13,11 +13,11 @@
 }
 
 .stepper {
-    margin-bottom: 50px;
+    margin-bottom: 20px;
 }
 
 .select {
-    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 .selectWrapper {
@@ -30,7 +30,7 @@
 }
 
 .buttonsWrapper {
-    margin-top: 20px;
+    /*margin-top: 20px;*/
 }
 
 .buttonWrapper {
@@ -48,4 +48,24 @@
 
 .sumType {
     margin-bottom: 20px !important;
+}
+
+.additionalField {
+    margin-top: 20px;
+    display: flex;
+}
+
+.additionalField > div {
+    width: 100%;
+}
+
+.formWrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.requiredInfo {
+    font-size: 14px;
+    opacity: 0.4;
+    margin: 20px 0 0 20px;
 }

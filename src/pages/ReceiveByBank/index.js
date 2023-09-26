@@ -10,21 +10,21 @@ import {Context} from "../../context";
 
 const ReceiveByBank = () => {
     const [deal, setDeal] = useState({
-        sender_bank: null,
-        sender_currency: null,
-        is_sbp: false,
-        sum: ''
+        senderBank: null,
+        senderCurrency: null,
+        isSbp: false,
+        transferAmount: ''
     });
 
     const { state } = useContext(Context);
     const {exchangeRate} = state
 
     const isDealValid = () => {
-        return deal.sender_bank && deal.sender_currency && deal.sum;
+        return deal.senderBank && deal.senderCurrency && deal.sum;
     }
 
     const getUsdValue = () => {
-        const value = deal.sum / exchangeRate
+        const value = deal.transferAmount / exchangeRate
 
         return value.toFixed(2)
     }
@@ -71,7 +71,7 @@ const ReceiveByBank = () => {
                     }
                     onChange={handleChangeSum}
                 />
-                {  deal.sender_currency && deal.sum &&
+                {  deal.senderCurrency && deal.transferAmount &&
                     <Fragment>
                         <div className={css.exchangeRate}>курс {exchangeRate} RUB/USDT</div>
                         <div className={css.resultSum}>~{getUsdValue()}$</div>

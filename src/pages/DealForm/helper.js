@@ -7,3 +7,7 @@ export const STEPS = [
     {label: 'Данные получателя', component: ReceiverStep},
     {label: 'Сумма перевода', component: SumStep}
 ]
+
+export const isBankNameField = (fieldName) => {
+    return fieldName === 'Название банка' || fieldName === 'Bank name'
+}

@@ -8,17 +8,11 @@ import {
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 import DealForm from './pages/DealForm';
-import Home from './pages/Home';
-import Pin from './pages/Pin';
-import Receive from './pages/Recieve';
-import Send from './pages/Send';
-import ReceiveByBank from './pages/ReceiveByBank';
-import ReceiveUSDT from './pages/ReceiveUSDT';
-import ReceiveByPerson from './pages/ReceiveByPerson';
 
 import {CURRENCIES, getRequest} from './helper';
 import {useTelegram} from './hooks/useTelegram';
 import {Context} from "./context";
+import {isBankNameField} from "./pages/DealForm/helper";
 
 const darkTheme = createTheme({
     palette: {
@@ -30,24 +24,56 @@ const App = () => {
     const {tg, queryId} = useTelegram();
     const { dispatch } = useContext(Context);
 
+    const [additionalFieldsOptions, setAdditionalFieldsOptions] = useState([])
+
     const [deal, setDeal] = useState({
-        sender_bank: null,
-        sender_currency: null,
-        receiver_bank: null,
-        receiver_currency: null,
-        is_sbp: false,
-        sum: null,
-        sumType: 'sumToReceive'
+        senderBank: null,
+        senderCurrency: null,
+        receiverBank: null,
+        receiverCurrency: null,
+        isSbp: false,
+        transferAmount: null,
+        toSend: false,
+        senderPaymentDetails: [],
+        receiverPaymentDetails: []
     });
 
     const [isAuthorized, setIsAuthorized] = useState(false)
 
-    const onChangeDeal = (field, value) => {
-        setDeal({
-            ...deal,
-            [field]: value
-        })
-    }
+    const onChangeDeal = useCallback((field, value) => {
+        setDeal(prevDeal => {
+            return {
+                ...prevDeal,
+                [field]: value
+            };
+        });
+    }, [deal])
+
+    const onChangeSenderAdditionalField = useCallback((index, value) => {
+        const updatedItems = [...deal.senderPaymentDetails];
+
+        updatedItems[index] = { ...updatedItems[index], value };
+
+        setDeal(prevDeal => {
+            return {
+                ...prevDeal,
+                senderPaymentDetails: updatedItems
+            }
+        });
+    }, [deal])
+
+    const onChangeReceiverAdditionalField = useCallback((index, value) => {
+        const updatedItems = [...deal.receiverPaymentDetails];
+
+        updatedItems[index] = { ...updatedItems[index], value };
+
+        setDeal(prevDeal => {
+            return {
+                ...prevDeal,
+                receiverPaymentDetails: updatedItems
+            }
+        });
+    }, [deal])
 
     const onSendDeal = useCallback(async () => {
         const data = {
@@ -69,18 +95,86 @@ const App = () => {
         // }
     }, [deal])
 
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const result = await getRequest('https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=rub');
-                const {tether} = result
-
-                dispatch({ type: 'SET_EXCHANGE_RATE', payload: tether.rub })
-            } catch (error) {
-                // Обработка ошибок
-            }
+    const getAdditionalFields = async (bank) => {
+        if (!bank) {
+            return [];
         }
 
+        try {
+            return await getRequest(`https://p2pwallet.ru/PayMethod/GetFields/${bank}`);
+        } catch (e) {
+            console.error(e)
+            return []
+        }
+    }
+
+
+    const fetchData = async () => {
+        const result = await getRequest('https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=rub');
+        const {tether} = result
+
+        dispatch({type: 'SET_EXCHANGE_RATE', payload: tether.rub})
+    }
+
+    useEffect(() => {
+        onChangeDeal('senderBank', '')
+    }, [deal.senderCurrency])
+
+    useEffect( () => {
+        if (!deal.senderBank) {
+            return;
+        }
+
+        async function updateAdditionalFields() {
+            const result = await getAdditionalFields(deal.senderBank);
+
+            setAdditionalFieldsOptions((prevState) => {
+                return {
+                    ...prevState,
+                    [deal.senderBank]: result
+                }
+            });
+
+            onChangeDeal('senderPaymentDetails', result.map(item => {
+                return {
+                    fieldId: item.fieldId,
+                    isRequired: item.isRequired,
+                    value: isBankNameField(item.fieldName) ? 1 : ''
+                }
+            }))
+        }
+
+        updateAdditionalFields()
+    }, [deal.senderBank])
+
+    useEffect( () => {
+        if (!deal.receiverBank) {
+            return;
+        }
+
+        async function updateAdditionalFields() {
+            const result = await getAdditionalFields(deal.receiverBank);
+
+            setAdditionalFieldsOptions((prevState) => {
+                return {
+                    ...prevState,
+                    [deal.receiverBank]: result
+                }
+            });
+
+            onChangeDeal('receiverPaymentDetails', result.map(item => {
+                return {
+                    fieldId: item.fieldId,
+                    isRequired: item.isRequired,
+                    value: isBankNameField(item.fieldName) ? 1 : ''
+                }
+            }))
+        }
+
+        updateAdditionalFields()
+    }, [deal.receiverBank])
+
+    useEffect(() => {
         fetchData();
         tg.ready();
         tg.expand();
@@ -90,16 +184,21 @@ const App = () => {
         <ThemeProvider theme={darkTheme}>
             <Router>
                 <Routes>
-                    <Route path="/" element={isAuthorized ? <Home /> : <Pin onAuthorize={() => setIsAuthorized(true)} />}/>
-
-                    <Route path="/deal" element={<DealForm isAuthorized={isAuthorized} deal={deal} currencies={CURRENCIES} onChangeDeal={onChangeDeal} onSendDeal={onSendDeal}/>}/>
-
-                    <Route path="/receive" element={<Receive isAuthorized={isAuthorized} />}/>
-                    <Route path="/receive-bank" element={<ReceiveByBank isAuthorized={isAuthorized} />}/>
-                    <Route path="/receive-usdt" element={<ReceiveUSDT isAuthorized={isAuthorized} />}/>
-                    <Route path="/receive-person" element={<ReceiveByPerson isAuthorized={isAuthorized} />}/>
-
-                    <Route path="/send" element={<Send isAuthorized={isAuthorized} />}/>
+                    <Route
+                        path="/"
+                        element={
+                            <DealForm
+                                isAuthorized={isAuthorized}
+                                deal={deal}
+                                currencies={CURRENCIES}
+                                onChangeDeal={onChangeDeal}
+                                additionalFieldsOptions={additionalFieldsOptions}
+                                onChangeSenderAdditionalField={onChangeSenderAdditionalField}
+                                onChangeReceiverAdditionalField={onChangeReceiverAdditionalField}
+                                onSendDeal={onSendDeal}
+                            />
+                        }
+                    />
                 </Routes>
             </Router>
         </ThemeProvider>

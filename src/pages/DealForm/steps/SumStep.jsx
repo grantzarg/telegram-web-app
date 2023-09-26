@@ -7,14 +7,14 @@ import TextField from "@mui/material/TextField";
 
 const SumStep = ({onChangeDeal, deal}) => {
     const handleChangeSumType = (event) => {
-        onChangeDeal('sumType', event.target.value)
+        onChangeDeal('toSend', event.target.value === 'sumToSend')
     };
 
     const handleChangeSum = (e) => {
         const regex = /^[0-9\b]+$/;
 
         if (e.target.value === "" || regex.test(e.target.value)) {
-            onChangeDeal('sum', e.target.value);
+            onChangeDeal('transferAmount', e.target.value);
         }
     };
 
@@ -22,7 +22,7 @@ const SumStep = ({onChangeDeal, deal}) => {
         <div className={css.sumWrapper}>
             <FormControl className={css.sumType} fullWidth>
                 <Select
-                    value={deal.sumType}
+                    value={deal.toSend ? 'sumToSend' : 'sumToReceive'}
                     sx={{
                         width: '100%',
                         '& fieldset': { borderRadius: 25 }
