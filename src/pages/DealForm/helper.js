@@ -1,6 +1,6 @@
-import SenderStep from './steps/SenderStep'
-import ReceiverStep from './steps/ReceiverStep'
-import SumStep from './steps/SumStep'
+import SenderStep from './Steps/SenderStep'
+import ReceiverStep from './Steps/ReceiverStep'
+import SumStep from './Steps/SumStep'
 
 export const STEPS = [
     {label: 'Данные отправителя', component: SenderStep},

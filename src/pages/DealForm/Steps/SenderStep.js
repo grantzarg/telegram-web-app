@@ -4,9 +4,8 @@ import css from '../index.module.css';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import AdditionalField from "../AdditionalField";
 
-const SenderStep = ({currenciesList, getOptionLabel, deal, paymentMethods, onChangeDeal, additionalFieldsOptions = [], onChangeSenderAdditionalField}) => {
+const SenderStep = ({currenciesList, getOptionLabel, deal, paymentMethods, onChangeDeal}) => {
     const handleChangeSenderCurrency = (value) => {
         onChangeDeal('senderCurrency', value ? value.id : null)
     }
@@ -17,10 +16,6 @@ const SenderStep = ({currenciesList, getOptionLabel, deal, paymentMethods, onCha
 
     const getPaymentMethodsByCurrency = (currency) => {
         return paymentMethods[currency] || []
-    }
-
-    const handleChangeAdditionalField = (e, index) => {
-        onChangeSenderAdditionalField(index, e.target.value);
     }
 
     return (
@@ -70,17 +65,6 @@ const SenderStep = ({currenciesList, getOptionLabel, deal, paymentMethods, onCha
                 }
                 label="Сможете ли вы отправить по СБП?"
             />}
-            {additionalFieldsOptions[deal.senderBank] && additionalFieldsOptions[deal.senderBank].map((field, index) => {
-                return (
-                    <AdditionalField
-                        key={`additional_field_${index}`}
-                        fieldOptions={field}
-                        value={deal.senderPaymentDetails[index] && deal.senderPaymentDetails[index].value}
-                        index={index}
-                        onChange={(e) => handleChangeAdditionalField(e, index)}
-                    />
-                )
-            })}
         </Fragment>
     )
 }

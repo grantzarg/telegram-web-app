@@ -2,7 +2,7 @@ import React, {Fragment, useContext, useMemo, useState} from "react";
 import css from './index.module.css'
 import BackButton from "../../components/BackButton";
 import Balance from "../../components/Balance";
-import SenderStep from "../DealForm/steps/SenderStep";
+import SenderStep from "../DealForm/Steps/SenderStep";
 import {currenciesList, getPaymentMethods, getOptionLabel} from "../../helper";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';

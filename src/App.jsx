@@ -9,7 +9,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 import DealForm from './pages/DealForm';
 
-import {CURRENCIES, getRequest} from './helper';
+import {CURRENCIES, getRequest, postRequest} from './helper';
 import {useTelegram} from './hooks/useTelegram';
 import {Context} from "./context";
 import {isBankNameField} from "./pages/DealForm/helper";
@@ -21,7 +21,7 @@ const darkTheme = createTheme({
 });
 
 const App = () => {
-    const {tg, queryId} = useTelegram();
+    const {tg} = useTelegram();
     const { dispatch } = useContext(Context);
 
     const [additionalFieldsOptions, setAdditionalFieldsOptions] = useState([])
@@ -34,7 +34,6 @@ const App = () => {
         isSbp: false,
         transferAmount: null,
         toSend: false,
-        senderPaymentDetails: [],
         receiverPaymentDetails: []
     });
 
@@ -46,19 +45,6 @@ const App = () => {
                 ...prevDeal,
                 [field]: value
             };
-        });
-    }, [deal])
-
-    const onChangeSenderAdditionalField = useCallback((index, value) => {
-        const updatedItems = [...deal.senderPaymentDetails];
-
-        updatedItems[index] = { ...updatedItems[index], value };
-
-        setDeal(prevDeal => {
-            return {
-                ...prevDeal,
-                senderPaymentDetails: updatedItems
-            }
         });
     }, [deal])
 
@@ -77,10 +63,21 @@ const App = () => {
 
     const onSendDeal = useCallback(async () => {
         const data = {
-            deal,
-            queryId,
+            ...deal,
+            paymentDetails: deal.receiverPaymentDetails.map(item => {
+                return {
+                    fieldId: item.fieldId,
+                    value: item.value
+                }
+            })
         }
+        console.log(data)
 
+        const userId = ''
+
+        const result = await postRequest(`https://p2pwallet.ru//Main/CalculateFullCyclePrice/${userId}`, data);
+
+        console.log(result)
         // try {
         //     const result = await fetch('https://www.webapptelegram.ru/data', {
         //         method: 'POST',
@@ -193,7 +190,6 @@ const App = () => {
                                 currencies={CURRENCIES}
                                 onChangeDeal={onChangeDeal}
                                 additionalFieldsOptions={additionalFieldsOptions}
-                                onChangeSenderAdditionalField={onChangeSenderAdditionalField}
                                 onChangeReceiverAdditionalField={onChangeReceiverAdditionalField}
                                 onSendDeal={onSendDeal}
                             />

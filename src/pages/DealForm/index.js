@@ -28,20 +28,6 @@ const DealForm = ({deal, onChangeDeal, additionalFieldsOptions, onChangeSenderAd
 
     const isLastStep = activeStep === STEPS.length - 1
 
-    const isSenderAdditionalFieldsValid = () => {
-        let result = true
-        debugger
-        if (deal.senderPaymentDetails.length > 0) {
-            deal.senderPaymentDetails.forEach(item => {
-                if (item.isRequired) {
-                    result = !!item.value
-                }
-            })
-        }
-
-        return result
-    }
-
     const isReceiverAdditionalFieldsValid = () => {
         let result = true
 
@@ -58,7 +44,7 @@ const DealForm = ({deal, onChangeDeal, additionalFieldsOptions, onChangeSenderAd
 
     const isCurrentStepValid = useMemo(() => {
         if (activeStep === 0) {
-            return deal.senderBank && deal.senderCurrency && isSenderAdditionalFieldsValid()
+            return deal.senderBank && deal.senderCurrency
         }
 
         if (activeStep === 1) {
