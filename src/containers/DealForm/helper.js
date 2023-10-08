@@ -24,7 +24,7 @@ export const STEPS = [
         action: 'calculatePrice'
     },
     {
-        label: 'Рассчет стоимотит',
+        label: 'Расчёт стоимости',
         component: Confirmation,
         buttonText: 'Продолжить',
         action: 'next'
