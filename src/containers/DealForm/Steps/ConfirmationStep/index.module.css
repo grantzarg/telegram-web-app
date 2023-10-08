@@ -1,0 +1,26 @@
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.priceItem {
+    margin-bottom: 20px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.priceItemResult {
+    margin-top: 40px;
+    font-size: 25px;
+}
+
+.priceItemLabel {
+    color: #BFBFBF;
+}
+
+.buttonsWrapper {
+    display: flex;
+    align-items: center;
+}

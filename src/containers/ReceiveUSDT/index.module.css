@@ -1,5 +1,5 @@
 .wrapper {
-    width: 90vw;
+    width: 95vw;
     margin: 20px auto;
     border-radius: 25px;
     padding: 25px 15px;
@@ -95,7 +95,7 @@
 
 .actionButtonsWrapper {
     display: flex;
-    width: 90vw;
+    width: 95vw;
     margin: 20px auto 0 auto;
 }
 

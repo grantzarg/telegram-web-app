@@ -1,18 +1,15 @@
 import React, {useCallback, useState, useEffect, useContext} from 'react'
-import {
-    BrowserRouter as Router,
-    Routes,
-    Route
-} from 'react-router-dom';
-
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
-import DealForm from './pages/DealForm';
+import DealForm from './containers/DealForm';
+import Confirmation from './containers/DealForm/Steps/ConfirmationStep';
 
-import {CURRENCIES, getRequest, postRequest} from './helper';
+import {getRequest, postRequest} from './utils/helper';
+import {CURRENCIES} from './utils/constants'
 import {useTelegram} from './hooks/useTelegram';
 import {Context} from "./context";
-import {isBankNameField} from "./pages/DealForm/helper";
+import {isBankNameField} from "./containers/DealForm/helper";
+import Loader from "./components/Loader";
 
 const darkTheme = createTheme({
     palette: {
@@ -24,8 +21,13 @@ const App = () => {
     const {tg} = useTelegram();
     const { dispatch } = useContext(Context);
 
-    const [additionalFieldsOptions, setAdditionalFieldsOptions] = useState([])
+    const userId = tg?.initDataUnsafe?.user?.id || 81055437;
+    if (!userId) {
+        return null;
+    }
 
+    const [isLoading, setIsLoading] = useState(false);
+    const [additionalFieldsOptions, setAdditionalFieldsOptions] = useState([])
     const [deal, setDeal] = useState({
         senderBank: null,
         senderCurrency: null,
@@ -36,8 +38,17 @@ const App = () => {
         toSend: false,
         receiverPaymentDetails: []
     });
-
     const [isAuthorized, setIsAuthorized] = useState(false)
+    const [isPriceCalculated, setIsPriceCalculated] = useState(true)
+    const [priceOptions, setPriceOptions] = useState({
+        sendAmount: 0,
+        receiveAmount: 0,
+        sendCurrency: 'USD',
+        receiveCurrency: 'USD',
+        realExchangeRate: 0,
+        clientExchangeRate: 0,
+        commisionRate: 0
+    })
 
     const onChangeDeal = useCallback((field, value) => {
         setDeal(prevDeal => {
@@ -61,35 +72,10 @@ const App = () => {
         });
     }, [deal])
 
-    const onSendDeal = useCallback(async () => {
-        const data = {
-            ...deal,
-            paymentDetails: deal.receiverPaymentDetails.map(item => {
-                return {
-                    fieldId: item.fieldId,
-                    value: item.value
-                }
-            })
-        }
-        console.log(data)
-
-        const userId = ''
-
-        const result = await postRequest(`https://p2pwallet.ru//Main/CalculateFullCyclePrice/${userId}`, data);
-
-        console.log(result)
-        // try {
-        //     const result = await fetch('https://www.webapptelegram.ru/data', {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //         body: JSON.stringify(data)
-        //     })
-        //     console.log(result)
-        // } catch (e) {
-        //     console.log(e)
-        // }
+    const onCalculatePrice = useCallback(async () => {
+        setIsLoading(true)
+        await calculatePrice()
+        setIsLoading(false)
     }, [deal])
 
     const getAdditionalFields = async (bank) => {
@@ -105,12 +91,27 @@ const App = () => {
         }
     }
 
+    const calculatePrice = async () => {
+        const result = await postRequest(`https://p2pwallet.ru/Main/CalculateFullCyclePrice`, {
+            ...deal,
+            userId,
+        });
 
-    const fetchData = async () => {
-        const result = await getRequest('https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=rub');
-        const {tether} = result
+        setPriceOptions(result)
+        setIsPriceCalculated(true)
+    }
 
-        dispatch({type: 'SET_EXCHANGE_RATE', payload: tether.rub})
+    const onSendDeal = async () => {
+        const data = await postRequest(`https://p2pwallet.ru/Main/ConfirmTransferStart`, {
+            paymentDetails: deal.receiverPaymentDetails,
+            userId
+        });
+
+        const result = await postRequest('https://www.webapptelegram.ru/sendDeal', {
+            ...data,
+            userId
+        });
+        tg.close();
     }
 
     useEffect(() => {
@@ -162,6 +163,7 @@ const App = () => {
             onChangeDeal('receiverPaymentDetails', result.map(item => {
                 return {
                     fieldId: item.fieldId,
+                    fieldName: item.fieldName,
                     isRequired: item.isRequired,
                     value: isBankNameField(item.fieldName) ? 1 : ''
                 }
@@ -171,32 +173,26 @@ const App = () => {
         updateAdditionalFields()
     }, [deal.receiverBank])
 
-    useEffect(() => {
-        fetchData();
+    useEffect(async () => {
         tg.ready();
         tg.expand();
     }, [])
 
     return (
         <ThemeProvider theme={darkTheme}>
-            <Router>
-                <Routes>
-                    <Route
-                        path="/"
-                        element={
-                            <DealForm
-                                isAuthorized={isAuthorized}
-                                deal={deal}
-                                currencies={CURRENCIES}
-                                onChangeDeal={onChangeDeal}
-                                additionalFieldsOptions={additionalFieldsOptions}
-                                onChangeReceiverAdditionalField={onChangeReceiverAdditionalField}
-                                onSendDeal={onSendDeal}
-                            />
-                        }
-                    />
-                </Routes>
-            </Router>
+            <DealForm
+                isLoading={isLoading}
+                isAuthorized={isAuthorized}
+                deal={deal}
+                currencies={CURRENCIES}
+                priceOptions={priceOptions}
+                additionalFieldsOptions={additionalFieldsOptions}
+                onChangeReceiverAdditionalField={onChangeReceiverAdditionalField}
+                onCalculatePrice={onCalculatePrice}
+                onChangeDeal={onChangeDeal}
+                onSendDeal={onSendDeal}
+            />
+            {isLoading && <Loader/>}
         </ThemeProvider>
     )
 }

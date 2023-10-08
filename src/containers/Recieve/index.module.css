@@ -1,8 +1,8 @@
 .wrapper {
-    width: 90vw;
+    width: 95vw;
     margin: 20px auto;
     border-radius: 25px;
-    padding: 15px 15px;
+    padding: 25px 15px;
     display: flex;
     flex-direction: column;
     background: #1A212C;
@@ -14,12 +14,12 @@
     margin-bottom: 20px;
 }
 
-.sendTypesWrapper {
+.receiveTypesWrapper {
     display: flex;
     flex-direction: column;
 }
 
-.sendType {
+.receiveType {
     padding: 15px 10px;
     display: flex;
     align-items: center;
@@ -27,7 +27,11 @@
     font-size: 18px;
 }
 
-.sendType:not(:last-child)::after {
+.receiveType:last-child {
+    padding-bottom: 0;
+}
+
+.receiveType:not(:last-child)::after {
     position: absolute;
     content: '';
     display: block;
@@ -38,7 +42,7 @@
     background: rgb(61, 61, 63);
 }
 
-.sendType svg {
+.receiveType svg {
     width: 25px;
     margin-right: 8px;
 }

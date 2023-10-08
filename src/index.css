@@ -12,45 +12,8 @@ body {
     font-family: "Roboto","Helvetica","Arial",sans-serif;
     -webkit-font-smoothing: antialiased;
     min-height: 100vh;
-    padding-bottom: 50px;
-    margin-bottom: 100px;
 }
 
-body .hg-theme-default {
-    background-color: #1A212C;;
-    margin: 30px auto 0;
-}
-
-body .hg-theme-default .hg-button {
-    background: #3a4756;
-    color: #fff;
-    font-size: 30px;
-    width: 80px;
-    height: 80px;
-}
-
-
-body .hg-theme-default .hg-button.hg-activeButton {
-    background: #A0A2A8;
-}
-
-body .hg-theme-default .hg-row .hg-button:not(:last-child) {
-    margin-right: 20px;
-}
-body .hg-theme-default .hg-row .hg-button {
-    margin-bottom: 20px;
-}
-
-body .hg-theme-default.hg-layout-numeric .hg-button {
-    height: 80px;
-    box-shadow: 0px 0px 5px #1e252e;
-    border: none;
-}
-
-body .hg-theme-default.hg-layout-numeric .hg-button[data-skbtn="clear"] {
-    visibility: hidden;
-}
-
-#root {
-    padding-bottom: 50px;
+label.MuiFormLabel-root {
+    background: #1A212C;
 }

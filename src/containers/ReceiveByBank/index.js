@@ -1,23 +1,33 @@
-import React, {Fragment, useContext, useState} from "react";
+import React, {Fragment, useContext, useMemo, useState} from "react";
 import css from './index.module.css'
 import BackButton from "../../components/BackButton";
 import Balance from "../../components/Balance";
-import Button from "@mui/material/Button";
+import SenderStep from "../DealForm/Steps/SenderStep";
+import {currenciesList, getPaymentMethods, getOptionLabel} from '../../utils/helper';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 import {Context} from "../../context";
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
 
-import {currenciesList, getOptionLabel} from '../../helper'
+const ReceiveByBank = () => {
+    const [deal, setDeal] = useState({
+        senderBank: null,
+        senderCurrency: null,
+        isSbp: false,
+        transferAmount: ''
+    });
 
-const ReceiveByPerson = () => {
     const { state } = useContext(Context);
     const {exchangeRate} = state
 
-    const [deal, setDeal] = useState({
-        currency: null,
-        user: null,
-        sum: ''
-    });
+    const isDealValid = () => {
+        return deal.senderBank && deal.senderCurrency && deal.sum;
+    }
+
+    const getUsdValue = () => {
+        const value = deal.transferAmount / exchangeRate
+
+        return value.toFixed(2)
+    }
 
     const onChangeDeal = (field, value) => {
         setDeal({
@@ -34,37 +44,18 @@ const ReceiveByPerson = () => {
         }
     }
 
-    const getUsdValue = () => {
-        const value = deal.sum / exchangeRate
-
-        return value.toFixed(2)
-    }
-
-    const isDealValid = () => {
-        return deal.currency && deal.sum && deal.user;
-    }
-
-    const handleChangeCurrency = (value) => {
-        onChangeDeal('currency', value ? value.id : null)
-    }
-
     return (
         <Fragment>
             <Balance/>
             <div className={css.wrapper}>
                 <div className={css.title}>Пополнить</div>
-                <Autocomplete
-                    className={css.select}
-                    options={currenciesList}
+                <SenderStep
+                    className={css.senderData}
+                    deal={deal}
+                    currenciesList={currenciesList}
                     getOptionLabel={getOptionLabel}
-                    sx={{
-                        width: '100%',
-                        '& fieldset': { borderRadius: 25 }
-                    }}
-                    renderInput={(params) => <TextField {...params} label="Выберите валюту"/>}
-                    isOptionEqualToValue={(option, value) => option.id === value.id}
-                    value={currenciesList.find(item => item.id === deal.currency) || null}
-                    onChange={(event, value) => handleChangeCurrency(value)}
+                    onChangeDeal={onChangeDeal}
+                    paymentMethods={getPaymentMethods()}
                 />
                 <TextField
                     className={css.sumInput}
@@ -80,14 +71,14 @@ const ReceiveByPerson = () => {
                     }
                     onChange={handleChangeSum}
                 />
-                {  deal.currency && deal.sum &&
+                {  deal.senderCurrency && deal.transferAmount &&
                     <Fragment>
                         <div className={css.exchangeRate}>курс {exchangeRate} RUB/USDT</div>
                         <div className={css.resultSum}>~{getUsdValue()}$</div>
                     </Fragment>
                 }
                 {   isDealValid() &&
-                    <Button size={"large"} variant="contained" sx={{ borderRadius: 25, marginTop: '20px', padding: '15px 20px' }}>Запросить</Button>
+                        <Button size={"large"} variant="contained" sx={{ borderRadius: 25, marginTop: '20px', padding: '15px 20px' }}>Пополнить</Button>
                 }
             </div>
             <BackButton route={'/receive'} title={'Назад'}/>
@@ -95,4 +86,4 @@ const ReceiveByPerson = () => {
     )
 };
 
-export default ReceiveByPerson
+export default ReceiveByBank
