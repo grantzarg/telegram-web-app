@@ -1,7 +1,4 @@
 import React, {Fragment} from 'react';
-import Autocomplete from '@mui/material/Autocomplete';
-import css from '../index.module.css';
-import TextField from '@mui/material/TextField';
 import AdditionalField from "../AdditionalField";
 
 const CredentialsStep = ({deal, additionalFieldsOptions = [], onChangeReceiverAdditionalField}) => {

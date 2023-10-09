@@ -1,8 +1,7 @@
-import React, {useCallback, useState, useEffect, useContext} from 'react'
+import React, {useCallback, useState, useEffect, useContext, Fragment} from 'react'
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 import DealForm from './containers/DealForm';
-import Confirmation from './containers/DealForm/Steps/ConfirmationStep';
 
 import {getRequest, postRequest} from './utils/helper';
 import {CURRENCIES} from './utils/constants'

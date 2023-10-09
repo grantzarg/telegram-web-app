@@ -18,7 +18,7 @@
 }
 
 .stepper :global(.MuiStepLabel-label) {
-    font-size: 15px;
+    font-size: 16px;
 }
 
 .select {

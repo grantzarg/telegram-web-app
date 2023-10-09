@@ -1,7 +1,10 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
+    mode: 'production',
     entry: "./src/index.js",
     devtool: "inline-source-map",
     output: {
@@ -11,7 +14,8 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: path.join(__dirname, "src", "index.html"),
-        })
+        }),
+        new BundleAnalyzerPlugin()
     ],
     devServer: {
         static: {
@@ -47,5 +51,14 @@ module.exports = {
     // pass all js files through Babel
     resolve: {
         extensions: [".*", ".js", ".jsx", '.css'],
-    }
+    },
+    optimization: {
+        minimizer: [
+            new TerserPlugin({
+                terserOptions: {
+                    mangle: true,
+                },
+            }),
+        ],
+    },
 };
