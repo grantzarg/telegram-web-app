@@ -21,6 +21,7 @@ const App = () => {
     const { dispatch } = useContext(Context);
 
     const userId = tg?.initDataUnsafe?.user?.id || 81055437;
+
     if (!userId) {
         return null;
     }
@@ -101,15 +102,20 @@ const App = () => {
     }
 
     const onSendDeal = async () => {
+        setIsLoading(true);
+
         const data = await postRequest(`https://p2pwallet.ru/Main/ConfirmTransferStart`, {
             paymentDetails: deal.receiverPaymentDetails,
             userId
         });
 
-        const result = await postRequest('https://www.webapptelegram.ru/sendDeal', {
+        const result = await postRequest('https://www.webapptelegram.ru/Users/sendDeal', {
             ...data,
             userId
         });
+
+        setIsLoading(false);
+
         tg.close();
     }
 
