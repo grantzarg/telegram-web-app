@@ -29,12 +29,12 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [additionalFieldsOptions, setAdditionalFieldsOptions] = useState([]);
   const [deal, setDeal] = useState({
-    senderBank: 'Wise',
-    senderCurrency: 'USD',
-    receiverBank: 'ADIB',
-    receiverCurrency: 'AED',
+    senderBank: null,
+    senderCurrency: null,
+    receiverBank: null,
+    receiverCurrency: null,
     isSbp: false,
-    transferAmount: 500,
+    transferAmount: null,
     toSend: false,
     receiverPaymentDetails: [],
   });

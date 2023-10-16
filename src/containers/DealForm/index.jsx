@@ -20,7 +20,7 @@ function DealForm({
   onSendDeal,
   priceOptions,
 }) {
-  const [activeStep, setActiveStep] = useState(4);
+  const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = async () => {
     const { action } = STEPS[activeStep];
