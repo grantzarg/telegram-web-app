@@ -1,3 +1,9 @@
+export const RESTRICTION_TYPES = {
+  0: 'text',
+  1: 'number',
+  2: 'text',
+}
+
 export const CURRENCIES = [
   {
     fullName: 'Доллар США',

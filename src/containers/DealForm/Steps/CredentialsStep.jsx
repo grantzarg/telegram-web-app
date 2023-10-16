@@ -6,8 +6,8 @@ function CredentialsStep({
   additionalFieldsOptions = [],
   onChangeReceiverAdditionalField,
 }) {
-  const handleChangeAdditionalField = (e, index) => {
-    onChangeReceiverAdditionalField(index, e.target.value);
+  const handleChangeAdditionalField = (value, index) => {
+    onChangeReceiverAdditionalField(index, value);
   };
 
   if (!additionalFieldsOptions[deal.receiverBank]) {
@@ -21,7 +21,7 @@ function CredentialsStep({
         fieldOptions={field}
         value={deal.receiverPaymentDetails[index] && deal.receiverPaymentDetails[index].value}
         index={index}
-        onChange={(e) => handleChangeAdditionalField(e, index)}
+        onChange={(value) => handleChangeAdditionalField(value, index)}
       />
     ))
   );

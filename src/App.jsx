@@ -29,12 +29,12 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [additionalFieldsOptions, setAdditionalFieldsOptions] = useState([]);
   const [deal, setDeal] = useState({
-    senderBank: null,
-    senderCurrency: null,
-    receiverBank: null,
-    receiverCurrency: null,
+    senderBank: 'Wise',
+    senderCurrency: 'USD',
+    receiverBank: 'ADIB',
+    receiverCurrency: 'AED',
     isSbp: false,
-    transferAmount: null,
+    transferAmount: 500,
     toSend: false,
     receiverPaymentDetails: [],
   });
@@ -50,12 +50,12 @@ function App() {
   });
 
   const calculatePrice = async () => {
-    const result = await postRequest('https://p2pwallet.ru/Main/CalculateFullCyclePrice', {
-      ...deal,
-      userId,
-    });
-
-    setPriceOptions(result);
+    // const result = await postRequest('https://p2pwallet.ru/Main/CalculateFullCyclePrice', {
+    //   ...deal,
+    //   userId,
+    // });
+    //
+    // setPriceOptions(result);
   };
 
   const onChangeDeal = useCallback((field, value) => {
@@ -88,7 +88,8 @@ function App() {
     }
 
     try {
-      return await getRequest(`https://p2pwallet.ru/PayMethod/GetFields/${bank}`);
+      // return await getRequest(`https://p2pwallet.ru/PayMethod/GetFields/${bank}`);
+      return await getRequest(`https://www.webapptelegram.ru/Users/GetFields/${bank}`);
     } catch (e) {
       console.error(e);
       return [];

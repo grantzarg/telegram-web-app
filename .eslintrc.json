@@ -1,0 +1,22 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": "airbnb",
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "overrides": [
+        {
+            "files": ["*.jsx", "*.js"]
+        }
+    ],
+    "rules": {
+        "no-console": 0,
+        "react/prop-types": 0,
+        "import/no-cycle": 0,
+        "react/jsx-props-no-spreading": 0
+    }
+}

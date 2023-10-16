@@ -60,6 +60,11 @@
     display: flex;
 }
 
+.additionalField :global(.MuiInputBase-root) {
+    border-radius: 45px;
+    width: 100%;
+}
+
 .additionalField > div {
     width: 100%;
 }
