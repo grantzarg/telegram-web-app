@@ -50,12 +50,12 @@ function App() {
   });
 
   const calculatePrice = async () => {
-    // const result = await postRequest('https://p2pwallet.ru/Main/CalculateFullCyclePrice', {
-    //   ...deal,
-    //   userId,
-    // });
-    //
-    // setPriceOptions(result);
+    const result = await postRequest('https://p2pwallet.ru/Main/CalculateFullCyclePrice', {
+      ...deal,
+      userId,
+    });
+
+    setPriceOptions(result);
   };
 
   const onChangeDeal = useCallback((field, value) => {
