@@ -31,7 +31,6 @@ function App() {
   const [deal, setDeal] = useState({
     senderBank: null,
     senderCurrency: null,
-    senderName: 'aaa aaa',
     receiverBank: null,
     receiverCurrency: null,
     isSbp: false,
@@ -102,6 +101,7 @@ function App() {
 
     const data = await postRequest('https://p2pwallet.ru:5000/Main/ConfirmTransferStart', {
       paymentDetails: deal.receiverPaymentDetails,
+      senderName: 'aaa bbb',
       userId,
     });
 
