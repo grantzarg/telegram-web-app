@@ -31,6 +31,7 @@ function App() {
   const [deal, setDeal] = useState({
     senderBank: null,
     senderCurrency: null,
+    senderName: 'aaa aaa',
     receiverBank: null,
     receiverCurrency: null,
     isSbp: false,
