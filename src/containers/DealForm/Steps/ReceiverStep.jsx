@@ -9,6 +9,8 @@ function ReceiverStep({
   deal,
   paymentMethods,
   onChangeDeal,
+  errors,
+  showErrors
 }) {
   const getPaymentMethodsByCurrency = (currency) => paymentMethods[currency] || [];
 
@@ -22,7 +24,7 @@ function ReceiverStep({
           width: '100%',
           '& fieldset': { borderRadius: 25 },
         }}
-        renderInput={(params) => <TextField {...params} label="Валюта получения *" />}
+        renderInput={(params) => <TextField {...params} label="Валюта получения *" error={showErrors && errors.receiverCurrency}/>}
         isOptionEqualToValue={(option, value) => option.id === value.id}
         value={currenciesList.find((item) => item.id === deal.receiverCurrency) || null}
         onChange={(event, value) => {
@@ -40,7 +42,7 @@ function ReceiverStep({
           '& fieldset': { borderRadius: 25 },
         }}
         isOptionEqualToValue={(option, value) => option.id === value.id}
-        renderInput={(params) => <TextField {...params} label="Банк получателя *" />}
+        renderInput={(params) => <TextField {...params} label="Банк получателя *" error={showErrors && errors.receiverBank}/>}
         value={
           getPaymentMethodsByCurrency(deal.receiverCurrency)
             .find((item) => item.id === deal.receiverBank) || null

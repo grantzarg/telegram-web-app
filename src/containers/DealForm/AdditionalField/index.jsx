@@ -4,6 +4,7 @@ import css from '../index.module.css';
 import { isBankNameField } from '../helper';
 import { MuiTelInput } from 'mui-tel-input';
 import {RESTRICTION_TYPES} from '../../../utils/constants';
+import {isEmailValid} from "../../../utils/validators";
 
 function AdditionalField({
   fieldOptions, value, onChange, className,
@@ -27,6 +28,10 @@ function AdditionalField({
   }
 
   const isPhone = fieldOptions.type === 'phone';
+  const isEmail = fieldOptions.type === 'email';
+  console.log(fieldOptions)
+  const invalidValue = isEmail && !isEmailValid(value);
+  console.log(isEmail, invalidValue)
 
   return (
     <div className={css.additionalField}>
@@ -43,6 +48,8 @@ function AdditionalField({
             onChange={handleChangePhoneField}
           /> :
           <TextField
+            error={invalidValue}
+            helperText={invalidValue && 'Укажите ваш email'}
             className={className}
             label={fieldOptions.fieldName}
             variant="outlined"

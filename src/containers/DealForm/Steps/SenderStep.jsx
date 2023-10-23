@@ -6,7 +6,7 @@ import Switch from '@mui/material/Switch';
 import css from '../index.module.css';
 
 function SenderStep({
-  currenciesList, getOptionLabel, deal, paymentMethods, onChangeDeal,
+  currenciesList, getOptionLabel, deal, paymentMethods, onChangeDeal, errors, showErrors
 }) {
   const handleChangeSenderCurrency = (value) => {
     onChangeDeal('senderCurrency', value ? value.id : null);
@@ -28,7 +28,7 @@ function SenderStep({
           width: '100%',
           '& fieldset': { borderRadius: 25 },
         }}
-        renderInput={(params) => <TextField {...params} label="Валюта отправления *" />}
+        renderInput={(params) => <TextField {...params} label="Валюта отправления *" error={showErrors && errors.senderCurrency} />}
         isOptionEqualToValue={(option, value) => option.id === value.id}
         value={currenciesList.find((item) => item.id === deal.senderCurrency) || null}
         onChange={(event, value) => handleChangeSenderCurrency(value)}
@@ -42,7 +42,7 @@ function SenderStep({
           width: '100%',
           '& fieldset': { borderRadius: 25 },
         }}
-        renderInput={(params) => <TextField {...params} label="Банк отправителя *" />}
+        renderInput={(params) => <TextField {...params} label="Банк отправителя *" error={showErrors && errors.senderBank} />}
         isOptionEqualToValue={(option, value) => option.id === value.id}
         value={
           getPaymentMethodsByCurrency(deal.senderCurrency)

@@ -37,4 +37,4 @@ export const STEPS = [
   },
 ];
 
-export const isBankNameField = (fieldName) => fieldName === 'Название банка' || fieldName === 'Bank name';
+export const isBankNameField = (fieldName) => fieldName === 'Название банка' || fieldName === 'Bank Name';

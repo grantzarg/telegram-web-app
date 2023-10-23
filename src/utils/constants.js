@@ -2,7 +2,13 @@ export const RESTRICTION_TYPES = {
   0: 'text',
   1: 'number',
   2: 'text',
-}
+};
+
+export const RU_BANKS = {
+  Sber: 'Сбербанк',
+  Tinkoff: 'Тинькофф',
+  RaiffeisenBank: 'Райффайзенбанк',
+};
 
 export const CURRENCIES = [
   {

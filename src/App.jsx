@@ -6,7 +6,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import DealForm from './containers/DealForm';
 
 import { getRequest, postRequest } from './utils/helper';
-import { CURRENCIES } from './utils/constants';
+import { CURRENCIES, RU_BANKS } from './utils/constants';
 import useTelegram from './hooks/useTelegram';
 import { isBankNameField } from './containers/DealForm/helper';
 import Loader from './components/Loader';
@@ -50,7 +50,7 @@ function App() {
   });
 
   const calculatePrice = async () => {
-    const result = await postRequest('https://p2pwallet.ru/Main/CalculateFullCyclePrice', {
+    const result = await postRequest('https://p2pwallet.ru:5000/Main/CalculateFullCyclePrice', {
       ...deal,
       userId,
     });
@@ -88,7 +88,7 @@ function App() {
     }
 
     try {
-      // return await getRequest(`https://p2pwallet.ru/PayMethod/GetFields/${bank}`);
+      // return await getRequest(`https://p2pwallet.ru:5000/PayMethod/GetFields/${bank}`);
       return await getRequest(`https://www.webapptelegram.ru/Users/GetFields/${bank}`);
     } catch (e) {
       console.error(e);
@@ -99,7 +99,7 @@ function App() {
   const onSendDeal = async () => {
     setIsLoading(true);
 
-    const data = await postRequest('https://p2pwallet.ru/Main/ConfirmTransferStart', {
+    const data = await postRequest('https://p2pwallet.ru:5000/Main/ConfirmTransferStart', {
       paymentDetails: deal.receiverPaymentDetails,
       userId,
     });
@@ -135,7 +135,9 @@ function App() {
         fieldId: item.fieldId,
         fieldName: item.fieldName,
         isRequired: item.isRequired,
-        value: isBankNameField(item.fieldName) ? 1 : '',
+        value: isBankNameField(item.fieldName) ?
+          RU_BANKS[deal.receiverBank] || '' :
+          '',
       })));
     }
 
