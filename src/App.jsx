@@ -136,9 +136,9 @@ function App() {
         fieldId: item.fieldId,
         fieldName: item.fieldName,
         isRequired: item.isRequired,
-        value: isBankNameField(item.fieldName) ?
-          RU_BANKS[deal.receiverBank] || '' :
-          '',
+        value: isBankNameField(item.fieldName)
+          ? RU_BANKS[deal.receiverBank] || ''
+          : '',
       })));
     }
 

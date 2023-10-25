@@ -1,10 +1,10 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
-import css from '../index.module.css';
-import { isBankNameField } from '../helper';
 import { MuiTelInput } from 'mui-tel-input';
-import {RESTRICTION_TYPES} from '../../../utils/constants';
-import {isEmailValid} from "../../../utils/validators";
+import { isBankNameField } from '../helper';
+import { RESTRICTION_TYPES } from '../../../utils/constants';
+import { isEmailValid } from '../../../utils/validators';
+import css from '../index.module.css';
 
 function AdditionalField({
   fieldOptions, value, onChange, className,
@@ -14,54 +14,56 @@ function AdditionalField({
   }
 
   const handleChangeField = (e) => {
-    let value = e.target.value
+    let newValue = e.target.value;
 
-    if (value.length > fieldOptions.lengthLimit) {
-      value = value.slice(0, fieldOptions.lengthLimit)
+    if (newValue.length > fieldOptions.lengthLimit) {
+      newValue = newValue.slice(0, fieldOptions.lengthLimit);
     }
 
-    onChange(value)
-  }
+    onChange(newValue);
+  };
 
-  const handleChangePhoneField = (value) => {
-    onChange(value)
-  }
+  const handleChangePhoneField = (newValue) => {
+    onChange(newValue);
+  };
 
   const isPhone = fieldOptions.type === 'phone';
   const isEmail = fieldOptions.type === 'email';
-  console.log(fieldOptions)
   const invalidValue = isEmail && !isEmailValid(value);
-  console.log(isEmail, invalidValue)
 
   return (
     <div className={css.additionalField}>
       {
-        isPhone ?
-          <MuiTelInput
-            className={css.additionalFieldPhone}
-            value={value}
-            defaultCountry={'RU'}
-            style={{
-              borderRadius: '45px',
-            }}
-            focusOnSelectCountry
-            onChange={handleChangePhoneField}
-          /> :
-          <TextField
-            error={invalidValue}
-            helperText={invalidValue && 'Укажите ваш email'}
-            className={className}
-            label={fieldOptions.fieldName}
-            variant="outlined"
-            required={fieldOptions.isRequired}
-            type={RESTRICTION_TYPES[fieldOptions.restrictionType]}
-            style={{
-              borderRadius: '25px',
-              width: '100%',
-            }}
-            value={value}
-            onChange={handleChangeField}
-          />
+        isPhone
+          ? (
+            <MuiTelInput
+              className={css.additionalFieldPhone}
+              value={value}
+              defaultCountry="RU"
+              style={{
+                borderRadius: '45px',
+              }}
+              focusOnSelectCountry
+              onChange={handleChangePhoneField}
+            />
+          )
+          : (
+            <TextField
+              error={invalidValue}
+              helperText={invalidValue && 'Укажите ваш email'}
+              className={className}
+              label={fieldOptions.fieldName}
+              variant="outlined"
+              required={fieldOptions.isRequired}
+              type={RESTRICTION_TYPES[fieldOptions.restrictionType]}
+              style={{
+                borderRadius: '25px',
+                width: '100%',
+              }}
+              value={value}
+              onChange={handleChangeField}
+            />
+          )
       }
     </div>
   );

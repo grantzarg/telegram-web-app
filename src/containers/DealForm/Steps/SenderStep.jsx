@@ -6,7 +6,13 @@ import Switch from '@mui/material/Switch';
 import css from '../index.module.css';
 
 function SenderStep({
-  currenciesList, getOptionLabel, deal, paymentMethods, onChangeDeal, errors, showErrors
+  currenciesList,
+  getOptionLabel,
+  deal,
+  paymentMethods,
+  onChangeDeal,
+  errors,
+  showErrors,
 }) {
   const handleChangeSenderCurrency = (value) => {
     onChangeDeal('senderCurrency', value ? value.id : null);
