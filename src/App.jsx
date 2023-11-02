@@ -4,6 +4,7 @@ import React, {
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 import DealForm from './containers/DealForm';
+import ProcessingDeal from './containers/ProcessingDeal';
 
 import { getRequest, postRequest } from './utils/helper';
 import { CURRENCIES, RU_BANKS } from './utils/constants';
@@ -31,6 +32,7 @@ function App() {
   const [deal, setDeal] = useState({
     senderBank: null,
     senderCurrency: null,
+    senderName: null,
     receiverBank: null,
     receiverCurrency: null,
     isSbp: false,
@@ -38,7 +40,7 @@ function App() {
     toSend: false,
     receiverPaymentDetails: [],
   });
-  const [isAuthorized, setIsAuthorized] = useState(false);
+  const [isProcessingDeal, setIsProcessingDeal] = useState(false);
   const [priceOptions, setPriceOptions] = useState({
     sendAmount: 0,
     receiveAmount: 0,
@@ -101,7 +103,7 @@ function App() {
 
     const data = await postRequest('https://p2pwallet.ru:5000/Main/ConfirmTransferStart', {
       paymentDetails: deal.receiverPaymentDetails,
-      senderName: 'aaa bbb',
+      senderName: deal.senderName,
       userId,
     });
 
@@ -114,6 +116,10 @@ function App() {
 
     tg.close();
   };
+
+  const checkStatus = async () => {
+    const result = await getRequest(`https://p2pwallet.ru:5000/Main/GetStatus/${userId}`);
+  }
 
   useEffect(() => {
     onChangeDeal('senderBank', '');
@@ -146,25 +152,30 @@ function App() {
   }, [deal.receiverBank]);
 
   useEffect(async () => {
-    setIsAuthorized(!!userId);
+    // await checkStatus();
     tg.ready();
     tg.expand();
   }, []);
 
   return (
     <ThemeProvider theme={darkTheme}>
-      <DealForm
-        isLoading={isLoading}
-        isAuthorized={isAuthorized}
-        deal={deal}
-        currencies={CURRENCIES}
-        priceOptions={priceOptions}
-        additionalFieldsOptions={additionalFieldsOptions}
-        onChangeReceiverAdditionalField={onChangeReceiverAdditionalField}
-        onCalculatePrice={onCalculatePrice}
-        onChangeDeal={onChangeDeal}
-        onSendDeal={onSendDeal}
-      />
+      {
+        isProcessingDeal
+          ? <ProcessingDeal isLoading={isLoading} />
+          : (
+            <DealForm
+              isLoading={isLoading}
+              deal={deal}
+              currencies={CURRENCIES}
+              priceOptions={priceOptions}
+              additionalFieldsOptions={additionalFieldsOptions}
+              onChangeReceiverAdditionalField={onChangeReceiverAdditionalField}
+              onCalculatePrice={onCalculatePrice}
+              onChangeDeal={onChangeDeal}
+              onSendDeal={onSendDeal}
+            />
+          )
+      }
       {isLoading && <Loader />}
     </ThemeProvider>
   );

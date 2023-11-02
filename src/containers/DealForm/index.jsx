@@ -45,6 +45,7 @@ function DealForm({
     setErrors({
       senderBank: !deal.senderBank,
       senderCurrency: !deal.senderCurrency,
+      senderName: !deal.senderName,
       receiverBank: !deal.receiverBank,
       receiverCurrency: !deal.receiverCurrency,
       transferAmount: !deal.transferAmount,

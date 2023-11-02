@@ -22,6 +22,10 @@ function SenderStep({
     onChangeDeal('senderBank', value ? value.id : null);
   };
 
+  const handleChangeSenderName = async (e) => {
+    onChangeDeal('senderName', e.target.value);
+  };
+
   const getPaymentMethodsByCurrency = (currency) => paymentMethods[currency] || [];
 
   return (
@@ -55,6 +59,18 @@ function SenderStep({
             .find((item) => item.id === deal.senderBank) || null
         }
         onChange={(event, value) => handleChangeSenderBank(value)}
+      />
+      <TextField
+        className={css.textField}
+        error={showErrors && errors.senderName}
+        helperText={showErrors && errors.senderName && 'Укажите ФИО отправителя'}
+        label="ФИО отправителя"
+        variant="outlined"
+        style={{
+          marginTop: '20px',
+        }}
+        value={deal.senderName}
+        onChange={handleChangeSenderName}
       />
       {deal.senderCurrency === 'RUB' && (
       <FormControlLabel

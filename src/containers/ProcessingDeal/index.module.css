@@ -1,0 +1,10 @@
+.container {
+    width: 90vw;
+    margin: 20px auto;
+    border-radius: 25px;
+    padding: 25px 15px;
+    display: flex;
+    flex-direction: column;
+    background: #1A212C;
+    min-height: calc(100vh - 40px);
+}
