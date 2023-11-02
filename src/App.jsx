@@ -11,12 +11,33 @@ import { CURRENCIES, RU_BANKS } from './utils/constants';
 import useTelegram from './hooks/useTelegram';
 import { isBankNameField } from './containers/DealForm/helper';
 import Loader from './components/Loader';
+import {getFromLocalStorage, saveToLocalStorage} from "./utils/browser";
 
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
   },
 });
+
+const getInitialDeal = () => {
+  const savedDeal = getFromLocalStorage('deal');
+
+  if (savedDeal) {
+    return savedDeal;
+  }
+
+  return {
+    senderBank: null,
+    senderCurrency: null,
+    senderName: null,
+    receiverBank: null,
+    receiverCurrency: null,
+    isSbp: false,
+    transferAmount: null,
+    toSend: false,
+    receiverPaymentDetails: [],
+  };
+};
 
 function App() {
   const { tg } = useTelegram();
@@ -29,17 +50,7 @@ function App() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [additionalFieldsOptions, setAdditionalFieldsOptions] = useState([]);
-  const [deal, setDeal] = useState({
-    senderBank: null,
-    senderCurrency: null,
-    senderName: null,
-    receiverBank: null,
-    receiverCurrency: null,
-    isSbp: false,
-    transferAmount: null,
-    toSend: false,
-    receiverPaymentDetails: [],
-  });
+  const [deal, setDeal] = useState(getInitialDeal());
   const [isProcessingDeal, setIsProcessingDeal] = useState(false);
   const [priceOptions, setPriceOptions] = useState({
     sendAmount: 0,
@@ -151,8 +162,17 @@ function App() {
     updateAdditionalFields();
   }, [deal.receiverBank]);
 
-  useEffect(async () => {
+  useEffect(() => {
+    saveToLocalStorage('deal', deal)
+  }, [deal]);
+
+  useEffect(() => {
     // await checkStatus();
+    const savedDeal = getFromLocalStorage('deal');
+
+    if (savedDeal) {
+      setDeal(savedDeal);
+    }
     tg.ready();
     tg.expand();
   }, []);
