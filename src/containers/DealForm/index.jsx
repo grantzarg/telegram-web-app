@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Button from '@mui/material/Button';
 import Stepper from '@mui/material/Stepper';
@@ -9,18 +9,36 @@ import css from './index.module.css';
 
 import { STEPS } from './helper';
 import { currenciesList, getPaymentMethods, getOptionLabel } from '../../utils/helper';
+import { getFromLocalStorage, saveToLocalStorage } from '../../utils/browser';
+import { isEmailValid } from '../../utils/validators';
+
+const getInitialStep = () => {
+  const savedStep = getFromLocalStorage('dealStep');
+
+  if (savedStep) {
+    if (savedStep > 2) {
+      return 2;
+    }
+
+    return savedStep;
+  }
+
+  return 0;
+};
 
 function DealForm({
   deal,
+  agreements,
   onChangeDeal,
   additionalFieldsOptions,
   onChangeSenderAdditionalField,
   onChangeReceiverAdditionalField,
+  onChangeAgreements,
   onCalculatePrice,
   onSendDeal,
   priceOptions,
 }) {
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(getInitialStep());
   const [errors, setErrors] = useState({});
   const [showErrors, setShowErrors] = useState(false);
 
@@ -29,8 +47,12 @@ function DealForm({
 
     if (deal.receiverPaymentDetails.length > 0) {
       deal.receiverPaymentDetails.forEach((item) => {
-        if (item.isRequired) {
-          result = !!item.value;
+        if (item.isRequired && !item.value) {
+          result = false;
+        }
+
+        if (item.type === 'email' && !isEmailValid(item.value)) {
+          result = false;
         }
       });
     }
@@ -38,10 +60,7 @@ function DealForm({
     return result;
   };
 
-  const validateCurrentStep = () => {
-    const isAdditionalFieldsValid = isReceiverAdditionalFieldsValid();
-    setShowErrors(true);
-
+  const setValidationErrorsDealForm = (isAdditionalFieldsValid) => {
     setErrors({
       senderBank: !deal.senderBank,
       senderCurrency: !deal.senderCurrency,
@@ -49,11 +68,24 @@ function DealForm({
       receiverBank: !deal.receiverBank,
       receiverCurrency: !deal.receiverCurrency,
       transferAmount: !deal.transferAmount,
+      agreeSenderData: agreements.agreeSenderData,
+      agreeStay: agreements.agreeStay,
+      agreeSendReceipt: agreements.agreeSendReceipt,
       isAdditionalFieldsValid,
     });
+  };
+
+  const validateCurrentStep = () => {
+    const isAdditionalFieldsValid = isReceiverAdditionalFieldsValid();
+    setShowErrors(true);
+
+    setValidationErrorsDealForm(isAdditionalFieldsValid);
 
     if (activeStep === 0) {
-      return deal.senderBank && deal.senderCurrency;
+      return deal.senderBank
+        && deal.senderCurrency
+        && deal.senderName
+        && agreements.agreeSenderData;
     }
 
     if (activeStep === 1) {
@@ -68,7 +100,12 @@ function DealForm({
       return true;
     }
 
-    return isAdditionalFieldsValid;
+    return isAdditionalFieldsValid
+      && deal.senderBank && deal.senderCurrency && deal.senderName
+      && deal.receiverBank && deal.receiverCurrency
+      && agreements.agreeSenderData
+      && agreements.agreeSendReceipt
+      && agreements.agreeReceiverData;
   };
 
   const handleNext = async () => {
@@ -106,6 +143,10 @@ function DealForm({
     onChangeDeal(field, value);
   };
 
+  useEffect(() => {
+    saveToLocalStorage('dealStep', activeStep);
+  }, [activeStep]);
+
   return (
     <div className={css.wrapper}>
       <div className={css.container}>
@@ -120,12 +161,14 @@ function DealForm({
                       currenciesList={currenciesList}
                       getOptionLabel={getOptionLabel}
                       deal={deal}
+                      agreements={agreements}
                       showErrors={showErrors}
                       errors={errors}
                       paymentMethods={getPaymentMethods()}
                       additionalFieldsOptions={additionalFieldsOptions}
                       priceOptions={priceOptions}
                       onChangeDeal={handleChangeDeal}
+                      onChangeAgreements={onChangeAgreements}
                       onChangeSenderAdditionalField={onChangeSenderAdditionalField}
                       onChangeReceiverAdditionalField={onChangeReceiverAdditionalField}
                     />
@@ -154,7 +197,6 @@ function DealForm({
             ))
           }
         </Stepper>
-        <div className={css.requiredInfo}>* - обязательные поля</div>
       </div>
     </div>
   );

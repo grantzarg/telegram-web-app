@@ -2,15 +2,20 @@ import React from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import Checkbox from '@mui/material/Checkbox';
 import Switch from '@mui/material/Switch';
+import FormHelperText from '@mui/material/FormHelperText';
 import css from '../index.module.css';
 
 function SenderStep({
   currenciesList,
   getOptionLabel,
   deal,
+  agreements,
   paymentMethods,
   onChangeDeal,
+  onChangeAgreements,
   errors,
   showErrors,
 }) {
@@ -92,6 +97,28 @@ function SenderStep({
         label="Сможете ли вы отправить по СБП?"
       />
       )}
+      <FormControl
+        required
+        error={showErrors && !agreements.agreeSenderData}
+        variant="standard"
+      >
+        <FormControlLabel
+          control={
+            (
+              <Checkbox
+                checked={agreements.agreeSenderData}
+                onChange={(e, value) => {
+                  onChangeAgreements('agreeSenderData', value);
+                }}
+              />
+            )
+          }
+          label="Подтверждаю корректность введенных данных Отправителя"
+        />
+        {showErrors
+          && !agreements.agreeSenderData
+          && <FormHelperText>Согласитесь с условиями</FormHelperText>}
+      </FormControl>
     </>
   );
 }

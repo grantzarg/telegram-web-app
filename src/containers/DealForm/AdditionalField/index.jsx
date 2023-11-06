@@ -7,7 +7,11 @@ import { isEmailValid } from '../../../utils/validators';
 import css from '../index.module.css';
 
 function AdditionalField({
-  fieldOptions, value, onChange, className,
+  fieldOptions,
+  value,
+  onChange,
+  className,
+  showErrors,
 }) {
   if (isBankNameField(fieldOptions.fieldName)) {
     return null;
@@ -29,7 +33,9 @@ function AdditionalField({
 
   const isPhone = fieldOptions.type === 'phone';
   const isEmail = fieldOptions.type === 'email';
-  const invalidValue = isEmail && !isEmailValid(value);
+
+  const invalidValue = (showErrors && !value)
+    || (isEmail && !isEmailValid(value));
 
   return (
     <div className={css.additionalField}>
@@ -50,7 +56,7 @@ function AdditionalField({
           : (
             <TextField
               error={invalidValue}
-              helperText={invalidValue && 'Укажите ваш email'}
+              helperText={isEmail && invalidValue && 'Укажите ваш email'}
               className={className}
               label={fieldOptions.fieldName}
               variant="outlined"

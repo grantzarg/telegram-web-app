@@ -11,7 +11,7 @@ import { CURRENCIES, RU_BANKS } from './utils/constants';
 import useTelegram from './hooks/useTelegram';
 import { isBankNameField } from './containers/DealForm/helper';
 import Loader from './components/Loader';
-import {getFromLocalStorage, saveToLocalStorage} from "./utils/browser";
+import { getFromLocalStorage, saveToLocalStorage } from './utils/browser';
 
 const darkTheme = createTheme({
   palette: {
@@ -61,6 +61,11 @@ function App() {
     clientExchangeRate: 0,
     commisionRate: 0,
   });
+  const [agreements, setAgreements] = useState({
+    agreeSenderData: false,
+    agreeReceiverData: false,
+    agreeSendReceipt: false,
+  });
 
   const calculatePrice = async () => {
     const result = await postRequest('https://p2pwallet.ru:5000/Main/CalculateFullCyclePrice', {
@@ -77,6 +82,13 @@ function App() {
       [field]: value,
     }));
   }, [deal]);
+
+  const onChangeAgreements = useCallback((field, value) => {
+    setAgreements((prevAgreements) => ({
+      ...prevAgreements,
+      [field]: value,
+    }));
+  }, [agreements]);
 
   const onChangeReceiverAdditionalField = useCallback((index, value) => {
     const updatedItems = [...deal.receiverPaymentDetails];
@@ -118,23 +130,26 @@ function App() {
       userId,
     });
 
-    await postRequest('https://www.webapptelegram.ru/Users/sendDeal', {
-      ...data,
-      userId,
-    });
-
     setIsLoading(false);
 
-    tg.close();
+    if (data.priceDetails) {
+      await postRequest('https://www.webapptelegram.ru/Users/sendDeal', {
+        ...data,
+        userId,
+      });
+
+      tg.close();
+    }
   };
 
   const checkStatus = async () => {
-    const result = await getRequest(`https://p2pwallet.ru:5000/Main/GetStatus/${userId}`);
-  }
+    const { status } = await getRequest(`https://p2pwallet.ru:5000/Main/GetStatus/${userId}`);
+    const isProcessing = status !== 'Start' && status !== 'WaitingForTransferConfirmation';
 
-  useEffect(() => {
-    onChangeDeal('senderBank', '');
-  }, [deal.senderCurrency]);
+    if (isProcessing) {
+      setIsProcessingDeal(true);
+    }
+  };
 
   useEffect(() => {
     if (!deal.receiverBank) {
@@ -152,6 +167,7 @@ function App() {
       onChangeDeal('receiverPaymentDetails', result.map((item) => ({
         fieldId: item.fieldId,
         fieldName: item.fieldName,
+        type: item.type,
         isRequired: item.isRequired,
         value: isBankNameField(item.fieldName)
           ? RU_BANKS[deal.receiverBank] || ''
@@ -163,11 +179,11 @@ function App() {
   }, [deal.receiverBank]);
 
   useEffect(() => {
-    saveToLocalStorage('deal', deal)
+    saveToLocalStorage('deal', deal);
   }, [deal]);
 
-  useEffect(() => {
-    // await checkStatus();
+  useEffect(async () => {
+    await checkStatus();
     const savedDeal = getFromLocalStorage('deal');
 
     if (savedDeal) {
@@ -186,12 +202,14 @@ function App() {
             <DealForm
               isLoading={isLoading}
               deal={deal}
+              agreements={agreements}
               currencies={CURRENCIES}
               priceOptions={priceOptions}
               additionalFieldsOptions={additionalFieldsOptions}
               onChangeReceiverAdditionalField={onChangeReceiverAdditionalField}
               onCalculatePrice={onCalculatePrice}
               onChangeDeal={onChangeDeal}
+              onChangeAgreements={onChangeAgreements}
               onSendDeal={onSendDeal}
             />
           )
