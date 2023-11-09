@@ -62,9 +62,9 @@ function App() {
     commisionRate: 0,
   });
   const [agreements, setAgreements] = useState({
-    agreeSenderData: false,
-    agreeReceiverData: false,
-    agreeSendReceipt: false,
+    agreeSenderData: true,
+    agreeReceiverData: true,
+    agreeSendReceipt: true,
   });
 
   const calculatePrice = async () => {
