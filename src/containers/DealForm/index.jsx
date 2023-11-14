@@ -41,6 +41,7 @@ function DealForm({
   const [activeStep, setActiveStep] = useState(getInitialStep());
   const [errors, setErrors] = useState({});
   const [showErrors, setShowErrors] = useState(false);
+  const [isValidAmount, setIsValidAmount] = useState(true);
 
   const isReceiverAdditionalFieldsValid = () => {
     let result = true;
@@ -67,7 +68,7 @@ function DealForm({
       senderName: !deal.senderName,
       receiverBank: !deal.receiverBank,
       receiverCurrency: !deal.receiverCurrency,
-      transferAmount: !deal.transferAmount,
+      transferAmount: !deal.transferAmount && !isValidAmount,
       agreeSenderData: agreements.agreeSenderData,
       agreeStay: agreements.agreeStay,
       agreeSendReceipt: agreements.agreeSendReceipt,
@@ -93,7 +94,7 @@ function DealForm({
     }
 
     if (activeStep === 2) {
-      return deal.transferAmount;
+      return deal.transferAmount && isValidAmount;
     }
 
     if (activeStep === 3) {
@@ -171,6 +172,7 @@ function DealForm({
                       onChangeAgreements={onChangeAgreements}
                       onChangeSenderAdditionalField={onChangeSenderAdditionalField}
                       onChangeReceiverAdditionalField={onChangeReceiverAdditionalField}
+                      onChangeValidAmount={(valid) => setIsValidAmount(valid)}
                     />
                   </div>
                   <div className={css.buttonsWrapper}>

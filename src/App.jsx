@@ -11,7 +11,7 @@ import { CURRENCIES, RU_BANKS } from './utils/constants';
 import useTelegram from './hooks/useTelegram';
 import { isBankNameField } from './containers/DealForm/helper';
 import Loader from './components/Loader';
-import { getFromLocalStorage, saveToLocalStorage } from './utils/browser';
+import { getFromLocalStorage, saveToLocalStorage, removeFromLocalStorage } from './utils/browser';
 
 const darkTheme = createTheme({
   palette: {
@@ -137,6 +137,8 @@ function App() {
         ...data,
         userId,
       });
+
+      // removeFromLocalStorage('deal');
 
       tg.close();
     }

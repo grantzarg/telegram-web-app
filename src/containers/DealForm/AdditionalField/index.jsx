@@ -17,8 +17,16 @@ function AdditionalField({
     return null;
   }
 
+  const isPhone = fieldOptions.type === 'phone';
+  const isEmail = fieldOptions.type === 'email';
+  const isPayAccount = fieldOptions.type === 'pay_account';
+
   const handleChangeField = (e) => {
     let newValue = e.target.value;
+
+    if (isPayAccount) {
+      newValue = newValue.replace(/[^0-9a-zA-Z]/g, '');
+    }
 
     if (newValue.length > fieldOptions.lengthLimit) {
       newValue = newValue.slice(0, fieldOptions.lengthLimit);
@@ -30,9 +38,6 @@ function AdditionalField({
   const handleChangePhoneField = (newValue) => {
     onChange(newValue);
   };
-
-  const isPhone = fieldOptions.type === 'phone';
-  const isEmail = fieldOptions.type === 'email';
 
   const invalidValue = (showErrors && !value)
     || (isEmail && !isEmailValid(value));

@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField';
 import css from '../index.module.css';
 import { MIN_AMOUNTS } from '../../../utils/constants';
 
-function SumStep({ onChangeDeal, deal }) {
+function SumStep({ onChangeDeal, deal, onChangeValidAmount }) {
   const [isValidAmount, setIsValidAmount] = useState(true);
 
   const currency1 = deal.toSend ? deal.receiverCurrency : deal.senderCurrency;
@@ -30,6 +30,10 @@ function SumStep({ onChangeDeal, deal }) {
     console.log(minAmount);
     setIsValidAmount(deal.transferAmount >= minAmount);
   }, [deal.transferAmount, deal.toSend]);
+
+  useEffect(() => {
+    onChangeValidAmount(isValidAmount)
+  }, [isValidAmount])
 
   return (
     <div className={css.sumWrapper}>
