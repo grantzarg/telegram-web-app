@@ -4,7 +4,6 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import Checkbox from '@mui/material/Checkbox';
-import Switch from '@mui/material/Switch';
 import FormHelperText from '@mui/material/FormHelperText';
 import css from '../index.module.css';
 
@@ -77,26 +76,6 @@ function SenderStep({
         value={deal.senderName}
         onChange={handleChangeSenderName}
       />
-      {deal.senderCurrency === 'RUB' && (
-      <FormControlLabel
-        sx={{
-          '&': {
-            marginTop: '20px',
-            marginRight: 0,
-            marginLeft: 0,
-          },
-        }}
-        control={(
-          <Switch
-            checked={deal.is_sbp}
-            onChange={(event, value) => {
-              onChangeDeal('is_sbp', value);
-            }}
-          />
-                  )}
-        label="Сможете ли вы отправить по СБП?"
-      />
-      )}
       <FormControl
         required
         error={showErrors && !agreements.agreeSenderData}

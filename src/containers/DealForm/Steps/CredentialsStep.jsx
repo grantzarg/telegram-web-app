@@ -35,6 +35,7 @@ function CredentialsStep({
             value={deal.receiverPaymentDetails[index] && deal.receiverPaymentDetails[index].value}
             index={index}
             showErrors={showErrors}
+            isSBP={deal.receiverBank === 'SBP'}
             onChange={(value) => handleChangeAdditionalField(value, index)}
           />
         ))

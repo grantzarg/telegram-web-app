@@ -12,6 +12,7 @@ function AdditionalField({
   onChange,
   className,
   showErrors,
+  isSBP
 }) {
   if (isBankNameField(fieldOptions.fieldName)) {
     return null;
@@ -51,6 +52,8 @@ function AdditionalField({
               className={css.additionalFieldPhone}
               value={value}
               defaultCountry="RU"
+              onlyCountries={isSBP ? ["RU"] : []}
+              forceCallingCode={isSBP}
               style={{
                 borderRadius: '45px',
               }}

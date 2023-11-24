@@ -32,7 +32,6 @@ const getInitialDeal = () => {
     senderName: null,
     receiverBank: null,
     receiverCurrency: null,
-    isSbp: false,
     transferAmount: null,
     toSend: false,
     receiverPaymentDetails: [],
@@ -113,7 +112,6 @@ function App() {
     }
 
     try {
-      // return await getRequest(`https://p2pwallet.ru:5000/PayMethod/GetFields/${bank}`);
       return await getRequest(`https://www.webapptelegram.ru/Users/GetFields/${bank}`);
     } catch (e) {
       console.error(e);
@@ -145,7 +143,8 @@ function App() {
   };
 
   const checkStatus = async () => {
-    const { status } = await getRequest(`https://p2pwallet.ru:5000/Main/GetStatus/${userId}`);
+    // const { status } = await getRequest(`https://p2pwallet.ru:5000/Main/GetStatus/${userId}`);
+    const status = 'Start'
     const isProcessing = status !== 'Start' && status !== 'WaitingForTransferConfirmation';
 
     if (isProcessing) {

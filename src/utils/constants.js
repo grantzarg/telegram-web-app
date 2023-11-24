@@ -126,45 +126,9 @@ export const CURRENCIES = [
         tradeMethodName: 'Райффайзенбанк',
       },
       {
-        identifier: 'RussianStandardBank',
-        tradeMethodName: 'Русский Стандарт',
-      },
-      {
-        identifier: 'PostBankNew',
-        tradeMethodName: 'Почта Банк',
-      },
-      {
-        identifier: 'QIWI',
-        tradeMethodName: 'QIWI',
-      },
-      {
-        identifier: 'HomeCreditBank',
-        tradeMethodName: 'Хоум Кредит Банк (Россия)',
-      },
-      {
-        identifier: 'CitibankRussia',
-        tradeMethodName: 'Ситибанк',
-      },
-      {
-        identifier: 'AkBarsBank',
-        tradeMethodName: 'Ак Барс Банк',
-      },
-      {
-        identifier: 'RenaissanceCredit',
-        tradeMethodName: 'Ренессанс Кредит Банк',
-      },
-      {
-        identifier: 'BCSBank',
-        tradeMethodName: 'БКС Банк',
-      },
-      {
-        identifier: 'Advcash',
-        tradeMethodName: 'AdvCash',
-      },
-      {
-        identifier: 'Payeer',
-        tradeMethodName: 'Payeer',
-      },
+        identifier: 'SBP',
+        tradeMethodName: 'СБП (система быстрых платежей)',
+      }
     ],
   },
   {
