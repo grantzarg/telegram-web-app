@@ -133,6 +133,7 @@ function App() {
     if (data.priceDetails) {
       await postRequest('https://www.webapptelegram.ru/Users/sendDeal', {
         ...data,
+        deal,
         userId,
       });
 
