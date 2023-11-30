@@ -102,7 +102,7 @@ function App() {
 
   const onCalculatePrice = useCallback(async () => {
     setIsLoading(true);
-    await calculatePrice();
+    // await calculatePrice();
     setIsLoading(false);
   }, [deal]);
 

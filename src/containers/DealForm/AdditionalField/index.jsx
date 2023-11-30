@@ -1,10 +1,13 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
-import { MuiTelInput } from 'mui-tel-input';
+import { MuiTelInput, matchIsValidTel } from 'mui-tel-input';
 import { isBankNameField } from '../helper';
-import { RESTRICTION_TYPES } from '../../../utils/constants';
+import { RESTRICTION_TYPES, SBP_BANKS } from '../../../utils/constants';
 import { isEmailValid } from '../../../utils/validators';
 import css from '../index.module.css';
+import SBPBankField from './components/SBPBankField'
+
+const SBP_BANK_NAME_FIELD_ID = '30401069441461374976';
 
 function AdditionalField({
   fieldOptions,
@@ -40,8 +43,22 @@ function AdditionalField({
     onChange(newValue);
   };
 
+  const isValidSBPPhone = (value) => {
+    const phoneNumberRegex = /^((\+7|7|8)[ -]?(\d[ -]?){10})$/;
+
+    return phoneNumberRegex.test(value);
+  }
+
   const invalidValue = (showErrors && !value)
-    || (isEmail && !isEmailValid(value));
+    || (showErrors && isEmail && !isEmailValid(value)) || (showErrors && isSBP && isPhone && !isValidSBPPhone(value));
+
+  if (isSBP && SBP_BANK_NAME_FIELD_ID === fieldOptions.fieldId) {
+    return (
+      <div className={css.additionalField}>
+        <SBPBankField value={value} showErrors={showErrors} onChange={onChange} className={className} />
+      </div>
+    )
+  }
 
   return (
     <div className={css.additionalField}>
@@ -51,6 +68,7 @@ function AdditionalField({
             <MuiTelInput
               className={css.additionalFieldPhone}
               value={value}
+              error={invalidValue}
               defaultCountry="RU"
               onlyCountries={isSBP ? ["RU"] : []}
               forceCallingCode={isSBP}
