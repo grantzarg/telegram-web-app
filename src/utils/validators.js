@@ -3,3 +3,9 @@ export const isEmailValid = (email) => {
 
   return emailRegex.test(email);
 };
+
+export const isValidSBPPhone = (phone) => {
+  const phoneNumberRegex = /^((\+7|7|8)[ -]?(\d[ -]?){10})$/;
+
+  return phoneNumberRegex.test(phone);
+};

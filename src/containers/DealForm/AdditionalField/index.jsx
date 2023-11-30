@@ -2,8 +2,8 @@ import React from 'react';
 import TextField from '@mui/material/TextField';
 import { MuiTelInput, matchIsValidTel } from 'mui-tel-input';
 import { isBankNameField } from '../helper';
-import { RESTRICTION_TYPES, SBP_BANKS } from '../../../utils/constants';
-import { isEmailValid } from '../../../utils/validators';
+import { RESTRICTION_TYPES } from '../../../utils/constants';
+import { isEmailValid, isValidSBPPhone } from '../../../utils/validators';
 import css from '../index.module.css';
 import SBPBankField from './components/SBPBankField'
 
@@ -42,12 +42,6 @@ function AdditionalField({
   const handleChangePhoneField = (newValue) => {
     onChange(newValue);
   };
-
-  const isValidSBPPhone = (value) => {
-    const phoneNumberRegex = /^((\+7|7|8)[ -]?(\d[ -]?){10})$/;
-
-    return phoneNumberRegex.test(value);
-  }
 
   const invalidValue = (showErrors && !value)
     || (showErrors && isEmail && !isEmailValid(value)) || (showErrors && isSBP && isPhone && !isValidSBPPhone(value));

@@ -10,7 +10,7 @@ import css from './index.module.css';
 import { STEPS } from './helper';
 import { currenciesList, getPaymentMethods, getOptionLabel } from '../../utils/helper';
 import { getFromLocalStorage, saveToLocalStorage } from '../../utils/browser';
-import { isEmailValid } from '../../utils/validators';
+import { isEmailValid, isValidSBPPhone } from '../../utils/validators';
 
 const getInitialStep = () => {
   const savedStep = getFromLocalStorage('dealStep');
@@ -45,6 +45,7 @@ function DealForm({
 
   const isReceiverAdditionalFieldsValid = () => {
     let result = true;
+    const isSBP = deal.receiverBank === 'SBP'
 
     if (deal.receiverPaymentDetails.length > 0) {
       deal.receiverPaymentDetails.forEach((item) => {
@@ -53,6 +54,10 @@ function DealForm({
         }
 
         if (item.type === 'email' && !isEmailValid(item.value)) {
+          result = false;
+        }
+
+        if (isSBP && item.type === 'phone' && !isValidSBPPhone(item.value)) {
           result = false;
         }
       });
