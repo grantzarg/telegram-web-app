@@ -814,7 +814,7 @@ export const MIN_AMOUNTS = {
     CZK: 5000,
     EUR: 5209,
     GBP: 12015,
-    GEL: 5000,
+    GEL: 2000,
     KGS: 5000,
     KZT: 5000,
     MDL: 5000,
