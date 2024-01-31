@@ -1,6 +1,6 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
-import { MuiTelInput, matchIsValidTel } from 'mui-tel-input';
+import { MuiTelInput } from 'mui-tel-input';
 import { isBankNameField } from '../helper';
 import { RESTRICTION_TYPES } from '../../../utils/constants';
 import { isEmailValid, isValidSBPPhone } from '../../../utils/validators';

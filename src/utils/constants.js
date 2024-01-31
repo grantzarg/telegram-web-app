@@ -87,7 +87,7 @@ export const SBP_BANKS = [
     id: 'other',
     label: 'Другой банк',
   },
-]
+];
 
 export const CURRENCIES = [
   {
@@ -207,7 +207,7 @@ export const CURRENCIES = [
       {
         identifier: 'SBP',
         tradeMethodName: 'СБП (система быстрых платежей)',
-      }
+      },
     ],
   },
   {

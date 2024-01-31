@@ -67,7 +67,7 @@ function App() {
   });
 
   const calculatePrice = async () => {
-    const result = await postRequest('https://p2pwallet.ru:5000/Main/CalculateFullCyclePrice', {
+    const result = await postRequest('https://p2pwallet.ru/Main/CalculateFullCyclePrice', {
       ...deal,
       userId,
     });
@@ -122,7 +122,7 @@ function App() {
   const onSendDeal = async () => {
     setIsLoading(true);
 
-    const data = await postRequest('https://p2pwallet.ru:5000/Main/ConfirmTransferStart', {
+    const data = await postRequest('https://p2pwallet.ru/Main/ConfirmTransferStart', {
       paymentDetails: deal.receiverPaymentDetails,
       senderName: deal.senderName,
       userId,
@@ -144,9 +144,10 @@ function App() {
   };
 
   const checkStatus = async () => {
-    // const { status } = await getRequest(`https://p2pwallet.ru:5000/Main/GetStatus/${userId}`);
-    const status = 'Start'
-    const isProcessing = status !== 'Start' && status !== 'WaitingForTransferConfirmation';
+    const { status } = await getRequest(`https://p2pwallet.ru/Main/GetStatus/${userId}`);
+    // const status = 'Start'
+    const availableStatuses = ['Start', 'WaitingForTransferConfirmation', 'Finished', 'Cancelled'];
+    const isProcessing = !availableStatuses.includes(status);
 
     if (isProcessing) {
       setIsProcessingDeal(true);

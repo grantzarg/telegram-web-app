@@ -45,7 +45,7 @@ function DealForm({
 
   const isReceiverAdditionalFieldsValid = () => {
     let result = true;
-    const isSBP = deal.receiverBank === 'SBP'
+    const isSBP = deal.receiverBank === 'SBP';
 
     if (deal.receiverPaymentDetails.length > 0) {
       deal.receiverPaymentDetails.forEach((item) => {

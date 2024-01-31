@@ -32,8 +32,8 @@ function SumStep({ onChangeDeal, deal, onChangeValidAmount }) {
   }, [deal.transferAmount, deal.toSend]);
 
   useEffect(() => {
-    onChangeValidAmount(isValidAmount)
-  }, [isValidAmount])
+    onChangeValidAmount(isValidAmount);
+  }, [isValidAmount]);
 
   return (
     <div className={css.sumWrapper}>

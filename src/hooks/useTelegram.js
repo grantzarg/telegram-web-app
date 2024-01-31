@@ -4,7 +4,7 @@ export default function useTelegram() {
   const onClose = () => {
     tg.close();
   };
-  console.log('tg', tg)
+
   return {
     onClose,
     tg,
